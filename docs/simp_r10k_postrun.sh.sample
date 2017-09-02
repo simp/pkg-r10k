@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Manifests may contain sensitive data and should not be world readable
+puppet_user=`/opt/puppetlabs/bin/puppet config print user`
+
+chgrp -R ${puppet_user} /etc/puppetlabs/code/environments/*
+chmod -R u+rwX,g+rX,o-rwx /etc/puppetlabs/code/environments/*
+
+# make sure any library changes that would affect the puppetserver are picked
+# up
+/opt/puppetlabs/bin/puppetserver reload

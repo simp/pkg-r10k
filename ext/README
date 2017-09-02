@@ -1,0 +1,6 @@
+External projects that have been included for consistency
+
+WARNING
+
+Be careful when upgrading, several of the Gemfiles needed to be changed because
+they made assumptions about the gem directories being in a Git repo.

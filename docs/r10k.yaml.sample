@@ -1,0 +1,24 @@
+# WARNING: Update this file before using!
+#
+# The following is a suggested r10k.yaml file designed to work with this RPM
+#
+# An example 'postrun' hook can be found in the simp_r10k_postrun.sh.sample file
+#
+# SEE ALSO:
+#   - https://github.com/puppetlabs/r10k/blob/master/doc/dynamic-environments/quickstart.mkd#install-and-configure-r10k
+
+---
+# The location to use for storing cached Git repos
+:cachedir: '/var/simp/cache/r10k'
+
+# A list of git repositories to create
+:sources:
+  # This will clone the git repository and instantiate an environment per
+  # branch in /etc/puppetlabs/code/environments
+  :my-org:
+    # Put your control repo here!
+    remote: 'https://github.com/simp/simp-control-repo-starter-kit'
+    basedir: '/etc/puppetlabs/code/environments'
+
+postrun:
+  - '/usr/local/bin/simp_r10k_postrun.sh'
