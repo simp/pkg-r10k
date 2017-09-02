@@ -39,6 +39,7 @@ Requires: rubygem(%{pkgname}-minitar) >= %{minitar_version}
 Requires: rubygem(%{pkgname}-multipart-post) >= %{multipart_post_version}
 Requires: rubygem(%{pkgname}-multi_json) >= %{multi_json}
 Requires: rubygem(%{pkgname}-puppet_forge) >= %{puppet_forge}
+Requires: rubygem(%{pkgname}-r10k) >= %{puppet_forge}
 BuildArch: noarch
 
 %description
