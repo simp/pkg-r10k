@@ -1,0 +1,32 @@
+language: ruby
+cache: bundler
+
+notifications:
+  email: false
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - rpm
+
+rvm:
+  - 2.1.9
+
+script:
+  # There's no rpmlint, so this will have to do
+  - 'rpm -q --specfile build/simp-vendored-r10k.spec'
+
+before_deploy:
+  - export VERSION=`ls -d ext/gems/r10k-* | cut -f2 -d'-'`
+  - "[[ $TRAVIS_TAG =~ ^${VERSION}$ ]]"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: m2y7ZVKZAjp5IGdJF3l9phYDthBwDWG89eY/1csPHlTl4s6zrdnQD1Uc6+xmaW3ATyj8btk9ye/FdA9TMNSl1RL1+oCxeBW32phiaRj0aIRr7C08R0i8GHr0zShKkb14F3us8wSzMkKjRgaq5Bm3dhH2vJhNdfGRIGjXgxHvH/rDlF3m5jjgqZizt5Xo8mQgCDlD7uFpqCjM8GmMxKZYsIHSvpEgkGG4inbRXCgBJW41/wT0XaMkpJ+VaQwRaKr7CiVwAGqMbbhgQ0J460z83RedQq8AtMmCH5PjXaStSc3RYHrfUZez+EUqUfUsiYWDvWjO3Xlsebzrx5YCVMYQQL3YatWfKYX2fMrXazmKa2UdEfUTyZREgjyssm53sxPKm4H0QCmY7zNbUpFSt6MuoHmJoezFTj3DX96UikLmm7fysfi+CA8NGalPDb6wZ71WlJDd6uH/fOKhzYzT2UfUGMzYtDnXPSvYDhdmotOBAhAyQ2mfGCjo/DR3HuN68rHJRemzurEcrEBwq4S9CsOtUj2T8MSuJPkTUQqLeS5w1ONjYQazooV9k/knJIasLjl2L5JX/y8FKtVnmRJGf0J24t58MAZUNYQr83bH6tTZxGYoGsonHsipTasd5JIgUgONMLpoi/05m6MYYKhOuv+rPdXvDIyfCExeLsRQevRxAa8=
+  on:
+    tags: true
+    rvm: 2.1.9
+    condition: "($SKIP_PUBLISH != true)"

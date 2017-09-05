@@ -1,0 +1,11 @@
+External projects that have been included for consistency
+
+WARNING
+
+Be careful when upgrading, several of the Gemfiles needed to be changed because
+they made assumptions about the gem directories being in a Git repo.
+
+The only items that need to be changed are the 'files' statements in some of
+the gemspec files.
+
+If there are GPG signing keys listed, you may also need to update those.
