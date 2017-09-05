@@ -20,7 +20,7 @@
 # unless this line is present:
 %define _unpackaged_files_terminate_build 0
 
-Summary: A non-conflicting release of r10k
+Summary: r10k with puppet-safe gem installation
 Name: simp-vendored-r10k
 Version: %{r10k_version}
 Release: 0
@@ -37,9 +37,9 @@ Requires: rubygem(%{pkgname}-faraday_middleware) >= %{faraday_middleware_version
 Requires: rubygem(%{pkgname}-log4r) >= %{log4r_version}
 Requires: rubygem(%{pkgname}-minitar) >= %{minitar_version}
 Requires: rubygem(%{pkgname}-multipart-post) >= %{multipart_post_version}
-Requires: rubygem(%{pkgname}-multi_json) >= %{multi_json}
-Requires: rubygem(%{pkgname}-puppet_forge) >= %{puppet_forge}
-Requires: rubygem(%{pkgname}-r10k) >= %{puppet_forge}
+Requires: rubygem(%{pkgname}-multi_json) >= %{multi_json_version}
+Requires: rubygem(%{pkgname}-puppet_forge) >= %{puppet_forge_version}
+Requires: rubygem(%{pkgname}-r10k) >= %{r10k_version}
 BuildArch: noarch
 
 %description

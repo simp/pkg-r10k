@@ -14,10 +14,6 @@ addons:
 rvm:
   - 2.1.9
 
-env:
-  global:
-  - SIMP_SKIP_NON_SIMPOS_TESTS=1
-
 script:
   # There's no rpmlint, so this will have to do
   - 'rpm -q --specfile build/simp-vendored-r10k.spec'

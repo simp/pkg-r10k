@@ -29,9 +29,6 @@ group :testing do
   gem 'travish'
   gem 'travis-lint'
 
-  # Ruby code coverage
-  gem 'simplecov'
-
   # Testing framework
   gem 'rspec'
   gem 'rspec-its'
