@@ -9,11 +9,8 @@ require 'simp/rake'
 
 Simp::Rake::Pkg.new(File.dirname(__FILE__))
 
-@package='simp-cli'
 @rakefile_dir=File.dirname(__FILE__)
 
-
-CLEAN.include "#{@package}-*.gem"
 CLEAN.include 'coverage'
 CLEAN.include 'dist'
 CLEAN.include 'pkg'
@@ -25,21 +22,6 @@ Find.find( @rakefile_dir ) do |path|
   end
 end
 
-
-desc 'special notes about these rake commands'
-task :help do
-  puts %Q{
-== Environment Variables ==
-SIMP_RPM_BUILD     when set, alters the gem produced by pkg:gem to be RPM-safe.
-                   'pkg:gem' sets this automatically.
-== Restrictions ==
-- Because the code for this gem uses a global, singleton HighLine object,
-  the tests for this code cannot be parallelized.
-- To prevent actual changes from being made to your system, some of the
-  'simp config' tests fail if the tests are run as root.
-  }
-end
-
 desc "Run spec tests"
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = ['--color']
@@ -47,22 +29,9 @@ RSpec::Core::RakeTask.new(:spec) do |t|
 end
 
 namespace :pkg do
-  @specfile_template = "rubygem-#{@package}.spec.template"
-  @specfile          = "build/rubygem-#{@package}.spec"
-
-  # ----------------------------------------
-  # DO NOT UNCOMMENT THIS: the spec file requires a lot of tweaking
-  # ----------------------------------------
-  #  desc "generate RPM spec file for #{@package}"
-  #  task :spec => [:clean, :gem] do
-  #    Dir.glob("pkg/#{@package}*.gem") do |pkg|
-  #      sh %Q{gem2rpm -t "#{@specfile_template}" "#{pkg}" > "#{@specfile}"}
-  #    end
-  #  end
-
   directory 'dist'
 
-  desc "build rubygem sub-packages for #{@package}"
+  desc 'build rubygem sub-packages'
   task :gem => ['dist'] do
     gem_dirs = Dir.glob('ext/gems/*')
 
