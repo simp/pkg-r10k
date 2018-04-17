@@ -1,0 +1,134 @@
+%global pkgname simp-r10k
+
+%global gemdir /usr/share/simp/ruby
+%global simp_bindir /usr/share/simp/bin
+%global geminstdir %{gemdir}/%{pkgname}-%{version}
+
+%global r10k_version <%= deps['version'] %>
+
+# gem2ruby's method of installing gems into mocked build roots will blow up
+# unless this line is present:
+%define _unpackaged_files_terminate_build 0
+
+Summary: r10k with puppet-safe gem installation
+Name: simp-vendored-r10k
+Version: %{r10k_version}
+Release: 0
+Group: Development/Languages
+License: Apache-2.0
+URL: https://github.com/simp/pkg-r10k
+Source0: %{name}-%{version}-%{release}.tar.gz
+Requires: puppet-agent
+Requires: %{name}-doc
+Requires: rubygem(%{pkgname}-r10k) >= %{r10k_version}
+<% deps['gems'].each do |dep,data| -%>
+Requires: rubygem(%{pkgname}-<%= dep %>) >= <%= data['version'] %>
+<% end -%>
+BuildArch: noarch
+
+%description
+A vendored version of r10k designed to prevent conflicts with any other gems on
+the system.
+
+You do *not* need to use this package to install r10k. The traditional methods
+documented on the Internet, or the version that ships with Puppet Enterprise
+will also work.
+
+This was specifically designed for situations where Internet access is
+difficult or unattainable.
+
+Binaries from this package will be located at %{simp_binpath} and will not be
+in your path by default.
+
+%package doc
+Summary: Documentation for the SIMP r10k installation
+Version: %{r10k_version}
+Release: 0
+License: Apache-2.0
+URL: https://github.com/simp/pkg-r10k
+BuildArch: noarch
+
+%description doc
+
+Documentation for the SIMP r10k installation including sample configuration and
+postrun scripts suited to a SIMP environment.
+
+<% source = 11 -%>
+<% deps['gems'].each do |dep,data| -%>
+%package gem-<%= dep %>
+Summary: A <%= dep %> Gem for use with %{name}
+Version: <%= data['version'] %>
+Release: 0
+License: <%= data['license'] %>
+URL: <%= data['url'] %>
+Source<%= source %>: <%= dep %>-<%= data['version'] %>.gem
+BuildRequires: ruby(rubygems)
+BuildRequires: ruby
+BuildArch: noarch
+Provides: rubygem(%{pkgname}-<%= dep %>) = <%= data['version'] %>
+
+%description gem-<%= dep %>
+
+Gem dependency for %{name}
+
+<%  source += 1 -%>
+<% end -%>
+
+
+%prep
+%setup -q
+
+%build
+
+%install
+echo "======= %setup PWD: ${PWD}"
+echo "======= %setup gemdir: %{gemdir}"
+
+mkdir -p %{buildroot}/%{gemdir}
+mkdir -p %{buildroot}/%{geminstdir}
+mkdir -p %{buildroot}/%{simp_bindir}
+mkdir -p %{buildroot}/%{_var}/simp/cache/r10k
+
+%{lua:
+  for i=11,<%= source - 1 %> do
+    print("gem install --local --install-dir ")
+    print(rpm.expand("%{buildroot}"))
+    print("/")
+    print(rpm.expand("%{geminstdir}"))
+    print(" --force ")
+    print(rpm.expand("%{SOURCE"..i.."}\n"))
+  end
+}
+
+cat <<EOM > %{buildroot}%{simp_bindir}/r10k
+#!/bin/bash
+
+export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:\$PATH
+export GEM_PATH=%{geminstdir}:\$GEM_PATH
+
+%{geminstdir}/gems/r10k-%{r10k_version}/bin/r10k \$@
+EOM
+
+%files
+%defattr(0644, root, root, 0755)
+%attr(0755,-,-) %{simp_bindir}/r10k
+%dir %attr(0750,-,-) %{_var}/simp/cache/r10k
+
+%files doc
+%doc docs/*
+
+
+<% deps['gems'].each do |dep,data| -%>
+%files gem-<%= dep %>
+%defattr(0644, root, root, 0755)
+%{geminstdir}/gems/<%= dep %>-<%= data['version'] %>
+<% if dep =~ /r10k/ -%>
+%attr(0755,-,-) %{geminstdir}/gems/<%= dep %>-<%= data['version'] %>/bin/r10k
+<% end -%>
+%exclude %{geminstdir}/cache/<%= dep %>-<%= data['version'] %>.gem
+%{geminstdir}/specifications/<%= dep %>-<%= data['version'] %>.gemspec
+
+<% end -%>
+
+%changelog
+<%= changelog -%>

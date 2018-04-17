@@ -6,3 +6,5 @@
 /.bundle
 /vendor
 Gemfile.lock
+build/simp-vendored-r10k.spec
+src/*

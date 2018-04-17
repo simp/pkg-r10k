@@ -1,0 +1,7 @@
+* Wed Apr 18 2018 Nick Miller <nick.miller@onyxpoint.com> - 2.6.2
+- Update rpm to include r10k 2.6.2 and other components.
+- Gems are now built from source and not contained in the repo.
+  See build/sources.yaml.
+
+* Fri Sep 01 2017 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.2.2
+- First release of r10k wrapper

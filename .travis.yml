@@ -4,7 +4,10 @@ cache: bundler
 notifications:
   email: false
 
-sudo: false
+sudo: required
+
+services:
+  - docker
 
 addons:
   apt:
@@ -15,11 +18,16 @@ rvm:
   - 2.1.9
 
 script:
-  # There's no rpmlint, so this will have to do
-  - 'rpm -q --specfile build/simp-vendored-r10k.spec'
+  - bundle exec rake pkg:rpm || true
+  - bundle exec rake pkg:rpm
+  - bundle exec rake 'test[6]'
+  - bundle exec rake 'test[7]'
+  - bundle exec rake clean
+  # - bundle exec rake gem_update
+  # - git ls-files -m | grep -v build/sources.yaml
 
 before_deploy:
-  - export VERSION=`ls -d ext/gems/r10k-* | cut -f2 -d'-'`
+  - export VERSION=`ruby -ryaml -e "puts YAML.load_file('build/sources.yaml')['version']"`
   - "[[ $TRAVIS_TAG =~ ^${VERSION}$ ]]"
 
 deploy:

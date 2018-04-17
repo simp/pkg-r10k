@@ -18,16 +18,16 @@ gem_sources.each { |gem_source| source gem_source }
 
 # mandatory gems
 gem 'mg'
-gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~>4')
+gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~> 4')
 gem 'rake'
-gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 4.0')
+gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 5.2')
+gem 'gemdiff'
+
+gem 'r10k', ENV.fetch('R10K_VERSION', '2.6.2')
 
 group :testing do
   # bootstrap common environment variables
   gem 'dotenv'
-
-  gem 'travish'
-  gem 'travis-lint'
 
   # Testing framework
   gem 'rspec'
