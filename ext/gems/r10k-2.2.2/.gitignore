@@ -1,6 +1,0 @@
-/r10k*.gem
-Gemfile.local
-Gemfile.lock
-.bundle
-bundle
-coverage
