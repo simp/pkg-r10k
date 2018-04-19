@@ -21,7 +21,6 @@ gem 'mg'
 gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~> 4')
 gem 'rake'
 gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 5.2')
-gem 'gemdiff'
 
 gem 'r10k', ENV.fetch('R10K_VERSION', '2.6.2')
 

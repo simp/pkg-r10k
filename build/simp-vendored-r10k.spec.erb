@@ -62,8 +62,6 @@ Release: 0
 License: <%= data['license'] %>
 URL: <%= data['url'] %>
 Source<%= source %>: <%= dep %>-<%= data['version'] %>.gem
-BuildRequires: ruby(rubygems)
-BuildRequires: ruby
 BuildArch: noarch
 Provides: rubygem(%{pkgname}-<%= dep %>) = <%= data['version'] %>
 

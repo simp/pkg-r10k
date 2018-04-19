@@ -60,7 +60,7 @@ task :test, [:el_version] do |t, args|
   docker_cmd << '/bin/bash -c "'
   docker_cmd <<   'yum install -y createrepo &&'
   docker_cmd <<   'yum install -y yum-utils &&' if el.to_i == 6
-  docker_cmd <<   'createrepo -q -p . &&'
+  docker_cmd <<   'createrepo -p . &&'
   docker_cmd <<   'yum-config-manager --add-repo file:///rpms &&'
   docker_cmd <<   "yum install -y http://yum.puppetlabs.com/puppetlabs-release-pc1-el-#{el}.noarch.rpm &&"
   docker_cmd <<   'yum install -y --nogpgcheck simp-vendored-r10k &&'
@@ -96,6 +96,45 @@ namespace :pkg do
     f = File.open('build/simp-vendored-r10k.spec', 'w')
     f << ERB.new(File.read('build/simp-vendored-r10k.spec.erb'), nil, '-').result(binding)
     f.close
+  end
+
+  Rake::Task['pkg:rpm'].clear
+  task :rpm => :rpmspec do
+    version  = deps['version']
+    builddir = File.join('dist','RPMBUILD')
+
+    FileUtils.mkdir_p 'dist'
+    FileUtils.mkdir_p ['BUILD','BUILDROOT','RPMS','SOURCES','SPECS','SRPMS'].map { |e| File.join(builddir,e) }
+    FileUtils.cp Dir.glob('dist/*.gem'), File.join(builddir, 'SOURCES')
+
+    Dir.chdir(File.join('dist','tmp')) do
+      sh "[ -e simp-vendored-r10k-#{version} ] || ln -s ../.. simp-vendored-r10k-#{version}"
+      tar_cmd  = []
+      tar_cmd << 'tar --dereference'
+      tar_cmd << "--exclude=simp-vendored-r10k-#{version}/dist"
+      tar_cmd << "--exclude=simp-vendored-r10k-#{version}/vendor"
+      tar_cmd << "--exclude=simp-vendored-r10k-#{version}/.bundle"
+      tar_cmd << '-czf'
+      tar_cmd << "../RPMBUILD/SOURCES/simp-vendored-r10k-#{version}-0.tar.gz"
+      tar_cmd << "simp-vendored-r10k-#{version}"
+      sh tar_cmd.join(' ')
+    end
+    FileUtils.rm_rf File.join('dist','tmp')
+
+    buildroot  = File.join(Dir.pwd,builddir)
+    src_cmd  = []
+    src_cmd << 'rpmbuild'
+    src_cmd << "-D '_topdir #{buildroot}'"
+    src_cmd << '-v -bs build/simp-vendored-r10k.spec'
+    sh src_cmd.join(' ')
+
+    rpm_cmd  = []
+    rpm_cmd << 'rpmbuild'
+    rpm_cmd << "-D '_topdir #{buildroot}'"
+    rpm_cmd << '-v -ba build/simp-vendored-r10k.spec'
+    sh rpm_cmd.join(' ')
+
+    FileUtils.cp Dir.glob('dist/RPMBUILD/RPMS/noarch/*.rpm'), 'dist'
   end
 
   Rake::Task[:rpm].prerequisites.unshift(:rpmspec)
