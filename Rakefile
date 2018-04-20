@@ -58,12 +58,37 @@ task :test, [:el_version] do |t, args|
   docker_cmd << '-w /rpms'
   docker_cmd << "centos:#{el}"
   docker_cmd << '/bin/bash -c "'
-  docker_cmd <<   'yum install -y createrepo &&'
+  docker_cmd <<   "yum install -y http://yum.puppetlabs.com/puppetlabs-release-pc1-el-#{el}.noarch.rpm &&"
   docker_cmd <<   'yum install -y yum-utils &&' if el.to_i == 6
+  docker_cmd <<   'yum install -y createrepo &&'
   docker_cmd <<   'createrepo -p . &&'
   docker_cmd <<   'yum-config-manager --add-repo file:///rpms &&'
-  docker_cmd <<   "yum install -y http://yum.puppetlabs.com/puppetlabs-release-pc1-el-#{el}.noarch.rpm &&"
   docker_cmd <<   'yum install -y --nogpgcheck simp-vendored-r10k &&'
+  docker_cmd <<   'rm -rf /rpms/repodata &&'
+  docker_cmd <<   '/usr/share/simp/bin/r10k'
+  docker_cmd << '"'
+  sh docker_cmd.join(' ')
+end
+
+task :test_upgrade, [:el_version] do |t, args|
+  el = args[:el_version] || '7'
+
+  docker_cmd  = []
+  docker_cmd << 'docker run -it'
+  docker_cmd << '-v `pwd`/dist:/rpms:Z'
+  docker_cmd << '-w /rpms'
+  docker_cmd << "centos:#{el}"
+  docker_cmd << '/bin/bash -c "'
+  docker_cmd <<   'yum install -y yum-utils &&' if el.to_i == 6
+  docker_cmd <<   "yum install -y http://yum.puppetlabs.com/puppetlabs-release-pc1-el-#{el}.noarch.rpm &&"
+  docker_cmd <<   'yum install -y createrepo &&'
+  docker_cmd <<   "yum-config-manager --add-repo https://packagecloud.io/simp-project/6_X/el/#{el}/x86_64 &&"
+  docker_cmd <<   'yum install -y --nogpgcheck simp-vendored-r10k &&'
+  docker_cmd <<   '/usr/share/simp/bin/r10k &&'
+
+  docker_cmd <<   'createrepo -p . &&'
+  docker_cmd <<   'yum-config-manager --add-repo file:///rpms &&'
+  docker_cmd <<   'yum update -y --nogpgcheck simp-vendored-r10k &&'
   docker_cmd <<   'rm -rf /rpms/repodata &&'
   docker_cmd <<   '/usr/share/simp/bin/r10k'
   docker_cmd << '"'
