@@ -88,7 +88,7 @@ task :test_upgrade, [:el_version] do |t, args|
 
   docker_cmd <<   'createrepo -p . &&'
   docker_cmd <<   'yum-config-manager --add-repo file:///rpms &&'
-  docker_cmd <<   'yum update -y --nogpgcheck simp-vendored-r10k &&'
+  docker_cmd <<   'yum update -y --nogpgcheck &&'
   docker_cmd <<   'rm -rf /rpms/repodata &&'
   docker_cmd <<   '/usr/share/simp/bin/r10k'
   docker_cmd << '"'

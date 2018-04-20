@@ -9,18 +9,22 @@ gems:
     version: '1.2'
     license: MIT
     url: https://github.com/defunkt/colored
+    release: 1
   cri:
     version: 2.6.1
     license: MIT
     url: https://github.com/ddfreyne/cri
+    release: 1
   faraday:
     version: 0.9.2
     license: MIT
     url: https://github.com/lostisland/faraday
+    release: 1
   faraday_middleware:
     version: 0.10.1
     license: MIT
     url: https://github.com/lostisland/faraday_middleware
+    release: 1
   fast_gettext:
     version: 1.1.2
     license: MIT
@@ -42,18 +46,22 @@ gems:
     license: MIT
     url: http://log4r.rubyforge.org
     repo: https://github.com/colbygk/log4r
+    release: 1
   minitar:
     version: 0.6.1
     license: Ruby
     url: https://github.com/halostatue/minitar/
+    release: 1
   multi_json:
     version: 1.12.1
     license: MIT
     url: https://github.com/intridea/multi_json
+    release: 1
   multipart-post:
     version: 2.0.0
     license: MIT
     url: https://github.com/nicksieger/multipart-post
+    release: 1
   puppet_forge:
     version: 2.2.8
     license: MIT

@@ -58,7 +58,7 @@ postrun scripts suited to a SIMP environment.
 %package gem-<%= dep %>
 Summary: A <%= dep %> Gem for use with %{name}
 Version: <%= data['version'] %>
-Release: 0
+Release: <%= data['release'] || 0 %>
 License: <%= data['license'] %>
 URL: <%= data['url'] %>
 Source<%= source %>: <%= dep %>-<%= data['version'] %>.gem
