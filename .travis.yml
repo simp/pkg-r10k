@@ -31,6 +31,8 @@ script:
 
   - bundle exec rake clean
 
+  - bundle exec rake pkg:create_tag_changelog
+
   # - bundle exec rake gem_update
   # - git ls-files -m | grep -v build/sources.yaml
 

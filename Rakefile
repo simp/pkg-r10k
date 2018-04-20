@@ -115,6 +115,7 @@ namespace :pkg do
     end
   end
 
+  desc 'Generate the rpm spec file using build/sources.yaml'
   task :rpmspec => :gem do
     changelog = File.read('CHANGELOG')
 
@@ -124,6 +125,7 @@ namespace :pkg do
   end
 
   Rake::Task['pkg:rpm'].clear
+  desc 'Build the rpms for all gems in the build/sources.yaml file'
   task :rpm => :rpmspec do
     version  = deps['version']
     builddir = File.join('dist','RPMBUILD')
@@ -163,5 +165,9 @@ namespace :pkg do
   end
 
   Rake::Task[:rpm].prerequisites.unshift(:rpmspec)
+end
+
+task :default do
+  system('rake -T')
 end
 # vim: syntax=ruby
