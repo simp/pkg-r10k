@@ -70,6 +70,7 @@ gems:
     version: 2.6.2
     license: Apache-2.0
     url: https://github.com/puppetlabs/r10k
+    release: 1
   semantic_puppet:
     version: 1.0.2
     license: Apache-2.0

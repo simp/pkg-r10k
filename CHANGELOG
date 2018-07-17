@@ -1,4 +1,10 @@
-* Wed Apr 18 2018 Nick Miller <nick.miller@onyxpoint.com> - 2.6.2
+* Tue Jul 17 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 2.6.2-1
+- Fixed bug in RPM variable used in simp-vendored-r10k description
+- Fixed bug in which release for r01k gem in sources.yaml was not being
+  used for the RPM release number of simp-vendored-r10k and
+  simp-vendored-r10k-doc packages.
+
+* Wed Apr 18 2018 Nick Miller <nick.miller@onyxpoint.com> - 2.6.2-0
 - Update rpm to include r10k 2.6.2 and other components.
 - Gems are now built from source and not contained in the repo.
   See build/sources.yaml.

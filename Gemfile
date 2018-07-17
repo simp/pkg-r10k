@@ -31,4 +31,8 @@ group :testing do
   # Testing framework
   gem 'rspec'
   gem 'rspec-its'
+
+  # A dependency of simp-rake-helpers
+  gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', ['>= 1.10.8', '< 2.0'])
+
 end
