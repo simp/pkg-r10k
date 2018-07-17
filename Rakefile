@@ -128,6 +128,7 @@ namespace :pkg do
   desc 'Build the rpms for all gems in the build/sources.yaml file'
   task :rpm => :rpmspec do
     version  = deps['version']
+    release  = deps['gems']['r10k']['release'].nil? ? 0 : deps['gems']['r10k']['release']
     builddir = File.join('dist','RPMBUILD')
 
     FileUtils.mkdir_p 'dist'
@@ -142,7 +143,7 @@ namespace :pkg do
       tar_cmd << "--exclude=simp-vendored-r10k-#{version}/vendor"
       tar_cmd << "--exclude=simp-vendored-r10k-#{version}/.bundle"
       tar_cmd << '-czf'
-      tar_cmd << "../RPMBUILD/SOURCES/simp-vendored-r10k-#{version}-0.tar.gz"
+      tar_cmd << "../RPMBUILD/SOURCES/simp-vendored-r10k-#{version}-#{release}.tar.gz"
       tar_cmd << "simp-vendored-r10k-#{version}"
       sh tar_cmd.join(' ')
     end
