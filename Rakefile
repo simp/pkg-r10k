@@ -6,7 +6,11 @@ require 'simp/rake'
 require 'erb'
 require 'yaml'
 
-Simp::Rake::Pkg.new(File.dirname(__FILE__))
+pkg = Simp::Rake::Pkg.new(File.dirname(__FILE__))
+# Simp::RakePkg decides where the RPM spec file for a project is in
+# its constructor.  However, for this project, the spec file will be
+# generated.  So need to tell it where the spec file will be found.
+pkg.spec_file = File.join(File.dirname(__FILE__), 'build', 'simp-vendored-r10k.spec')
 
 @rakefile_dir=File.dirname(__FILE__)
 deps = YAML.load_file('build/sources.yaml')
@@ -49,7 +53,14 @@ task :gem_update do
   File.write('build/sources.yaml', deps.to_yaml)
 end
 
-task :test, [:el_version] do |t, args|
+task :rpms_present do
+  rpms=Dir.glob('dist/simp-vendored-r10k-*.noarch.rpm')
+  if rpms.empty?
+    Rake::Task['pkg:rpm'].invoke
+  end
+end
+
+task :test, [:el_version] => [:rpms_present] do |t, args|
   el = args[:el_version] || '7'
 
   docker_cmd  = []
@@ -70,7 +81,7 @@ task :test, [:el_version] do |t, args|
   sh docker_cmd.join(' ')
 end
 
-task :test_upgrade, [:el_version] do |t, args|
+task :test_upgrade, [:el_version] => [:rpms_present] do |t, args|
   el = args[:el_version] || '7'
 
   docker_cmd  = []
@@ -116,7 +127,7 @@ namespace :pkg do
   end
 
   desc 'Generate the rpm spec file using build/sources.yaml'
-  task :rpmspec => :gem do
+  task :rpmspec do
     changelog = File.read('CHANGELOG')
 
     f = File.open('build/simp-vendored-r10k.spec', 'w')
@@ -126,7 +137,7 @@ namespace :pkg do
 
   Rake::Task['pkg:rpm'].clear
   desc 'Build the rpms for all gems in the build/sources.yaml file'
-  task :rpm => :rpmspec do
+  task :rpm => [:rpmspec,:gem] do
     version  = deps['version']
     release  = deps['gems']['r10k']['release'].nil? ? 0 : deps['gems']['r10k']['release']
     builddir = File.join('dist','RPMBUILD')
@@ -141,6 +152,7 @@ namespace :pkg do
       tar_cmd << 'tar --dereference'
       tar_cmd << "--exclude=simp-vendored-r10k-#{version}/dist"
       tar_cmd << "--exclude=simp-vendored-r10k-#{version}/vendor"
+      tar_cmd << "--exclude=simp-vendored-r10k-#{version}/.vendor"
       tar_cmd << "--exclude=simp-vendored-r10k-#{version}/.bundle"
       tar_cmd << '-czf'
       tar_cmd << "../RPMBUILD/SOURCES/simp-vendored-r10k-#{version}-#{release}.tar.gz"
@@ -166,6 +178,12 @@ namespace :pkg do
   end
 
   Rake::Task[:rpm].prerequisites.unshift(:rpmspec)
+  Rake::Task[:check_rpm_changelog].enhance [:rpmspec]
+  Rake::Task[:create_tag_changelog].enhance [:rpmspec]
+
+  # CAUTION: pkg:compare_latest_tag doesn't work with release-only version
+  # differences in this project...
+  Rake::Task[:compare_latest_tag].enhance [:rpmspec]
 end
 
 task :default do
