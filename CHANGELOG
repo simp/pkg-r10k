@@ -1,3 +1,7 @@
+* Wed Jan 16 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 2.6.2-2
+- Fixed bug in which the simp-vendored-r10k package did not require
+  the 'git' package
+
 * Tue Jul 17 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 2.6.2-1
 - Fixed bug in RPM variable used in simp-vendored-r10k description
 - Fixed bug in which release for r01k gem in sources.yaml was not being

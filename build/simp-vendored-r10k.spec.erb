@@ -18,6 +18,7 @@ Group: Development/Languages
 License: Apache-2.0
 URL: https://github.com/simp/pkg-r10k
 Source0: %{name}-%{version}-%{release}.tar.gz
+Requires: git
 Requires: puppet-agent
 Requires: %{name}-doc
 Requires: rubygem(%{pkgname}-r10k) >= %{r10k_version}
@@ -123,6 +124,7 @@ EOM
 <% if dep =~ /r10k/ -%>
 %attr(0755,-,-) %{geminstdir}/gems/<%= dep %>-<%= data['version'] %>/bin/r10k
 <% end -%>
+%exclude %{geminstdir}/bin
 %exclude %{geminstdir}/cache/<%= dep %>-<%= data['version'] %>.gem
 %{geminstdir}/specifications/<%= dep %>-<%= data['version'] %>.gemspec
 
