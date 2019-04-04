@@ -3,6 +3,7 @@ require 'find'
 require 'rake/clean'
 require 'rubygems'
 require 'simp/rake'
+require 'simp/rake/beaker'
 require 'erb'
 require 'yaml'
 
@@ -191,4 +192,7 @@ end
 task :default do
   system('rake -T')
 end
+# Acceptance Tests
+Simp::Rake::Beaker.new(File.dirname(__FILE__))
+
 # vim: syntax=ruby
