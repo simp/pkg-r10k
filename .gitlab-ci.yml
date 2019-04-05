@@ -176,6 +176,7 @@ pup5.5.7:
     - 'bundle exec rake pkg:rpmspec'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake beaker:suites'
+    - 'bundle exec rake beaker:suites[upgrade,default]'
 
 pup6:
   <<: *pup_6
@@ -184,6 +185,7 @@ pup6:
     - 'bundle exec rake pkg:rpmspec'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake beaker:suites'
+    - 'bundle exec rake beaker:suites[upgrade,default]'
 
 pup5.5.7-fips:
   <<: *pup_5_5_7
@@ -193,6 +195,7 @@ pup5.5.7-fips:
     - 'BEAKER_fips=yes bundle exec rake pkg:rpmspec'
     - 'BEAKER_fips=yes bundle exec rake pkg:rpm'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites'
+    - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,default]'
 
 pup5.5.7-oel:
   <<: *pup_5_5_7
@@ -202,6 +205,7 @@ pup5.5.7-oel:
     - 'bundle exec rake pkg:rpmspec'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake beaker:suites[default,oel]'
+    - 'bundle exec rake beaker:suites[upgrade,oel]'
 
 pup5.5.7-oel-fips:
   <<: *pup_5_5_7
@@ -211,3 +215,4 @@ pup5.5.7-oel-fips:
     - 'BEAKER_fips=yes bundle exec rake pkg:rpmspec'
     - 'BEAKER_fips=yes bundle exec rake pkg:rpm'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,oel]'
+    - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,oel]'

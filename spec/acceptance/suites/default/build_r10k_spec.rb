@@ -20,11 +20,6 @@ def install_deps(host, osver)
   end
 end
 
-def simp_deps_repo(host)
-  on(host,'curl -s https://packagecloud.io/install/repositories/simp-project/6_X_Dependencies/script.rpm.sh | sudo bash')
-  on(host, 'yum makecache')
-end
-
 test_name 'build simp vendored r10k'
 
 describe 'build simp vendored r10k' do
@@ -46,5 +41,6 @@ describe 'build simp vendored r10k' do
       end
 
     end
+
   end
 end
