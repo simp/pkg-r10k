@@ -13,6 +13,7 @@
   the version number was removed off the gem sub-directory. The release
   versions had to be updated this one time to force reinstall in the new
   versionless directory.
+- Add fixtures file so FIPS tests will pass.
 
 * Wed Jan 16 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 2.6.2-2
 - Fixed bug in which the simp-vendored-r10k package did not require
