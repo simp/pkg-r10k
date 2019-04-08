@@ -20,7 +20,7 @@ stages:
   - 'compliance'
   - 'deployment'
 
-image: 'ruby:2.4'
+image: 'ruby:2.5'
 
 variables:
   PUPPET_VERSION:    'UNDEFINED' # <- Matrixed jobs MUST override this (or fail)
@@ -173,7 +173,6 @@ pup5.5.7:
   <<: *pup_5_5_7
   <<: *acceptance_base
   script:
-    - 'bundle exec rake pkg:rpmspec'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake beaker:suites'
     - 'bundle exec rake beaker:suites[upgrade,default]'
@@ -182,7 +181,6 @@ pup6:
   <<: *pup_6
   <<: *acceptance_base
   script:
-    - 'bundle exec rake pkg:rpmspec'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake beaker:suites'
     - 'bundle exec rake beaker:suites[upgrade,default]'
@@ -192,7 +190,6 @@ pup5.5.7-fips:
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
-    - 'BEAKER_fips=yes bundle exec rake pkg:rpmspec'
     - 'BEAKER_fips=yes bundle exec rake pkg:rpm'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,default]'
@@ -202,7 +199,6 @@ pup5.5.7-oel:
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
-    - 'bundle exec rake pkg:rpmspec'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake beaker:suites[default,oel]'
     - 'bundle exec rake beaker:suites[upgrade,oel]'
@@ -212,7 +208,6 @@ pup5.5.7-oel-fips:
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
-    - 'BEAKER_fips=yes bundle exec rake pkg:rpmspec'
     - 'BEAKER_fips=yes bundle exec rake pkg:rpm'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,oel]'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,oel]'

@@ -22,7 +22,7 @@ def install_deps(host, osver)
 end
 
 def simp_deps_repo(host)
-  on(host,'curl -s https://packagecloud.io/install/repositories/simp-project/6_X_Dependencies/script.rpm.sh | sudo bash')
+  install_simp_deps_repo(host)
   on(host, 'yum makecache')
 end
 

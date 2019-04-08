@@ -33,6 +33,6 @@ group :testing do
   gem 'rspec-its'
 
   # A dependency of simp-rake-helpers
-  gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', ['>= 1.13.1', '< 2.0'])
+  gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', ['>= 1.14.0', '< 2.0'])
 
 end
