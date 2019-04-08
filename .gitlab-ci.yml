@@ -80,12 +80,12 @@ variables:
     BEAKER_PUPPET_COLLECTION: 'puppet5'
     MATRIX_RUBY_VERSION: '2.4'
 
-.pup_5_5_7: &pup_5_5_7
-  image: 'ruby:2.4'
+.pup_5_5_10: &pup_5_5_10
+  image: 'ruby:2.5'
   variables:
-    PUPPET_VERSION: '5.5.7'
+    PUPPET_VERSION: '5.5.10'
     BEAKER_PUPPET_COLLECTION: 'puppet5'
-    MATRIX_RUBY_VERSION: '2.4'
+    MATRIX_RUBY_VERSION: '2.5'
 
 .pup_6: &pup_6
   image: 'ruby:2.5'
@@ -169,8 +169,8 @@ sanity_checks:
 # Acceptance tests
 # ==============================================================================
 
-pup5.5.7:
-  <<: *pup_5_5_7
+pup5.5.10:
+  <<: *pup_5_5_10
   <<: *acceptance_base
   script:
     - 'bundle exec rake pkg:rpm'
@@ -185,8 +185,8 @@ pup6:
     - 'bundle exec rake beaker:suites'
     - 'bundle exec rake beaker:suites[upgrade,default]'
 
-pup5.5.7-fips:
-  <<: *pup_5_5_7
+pup5.5.10-fips:
+  <<: *pup_5_5_.7
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
@@ -194,8 +194,8 @@ pup5.5.7-fips:
     - 'BEAKER_fips=yes bundle exec rake beaker:suites'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,default]'
 
-pup5.5.7-oel:
-  <<: *pup_5_5_7
+pup5.5.10-oel:
+  <<: *pup_5_5_10
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
@@ -203,8 +203,8 @@ pup5.5.7-oel:
     - 'bundle exec rake beaker:suites[default,oel]'
     - 'bundle exec rake beaker:suites[upgrade,oel]'
 
-pup5.5.7-oel-fips:
-  <<: *pup_5_5_7
+pup5.5.10-oel-fips:
+  <<: *pup_5_5_10
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:

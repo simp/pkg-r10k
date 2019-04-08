@@ -3,11 +3,12 @@
   dependency gems where possible.  Latest puppet_forge
   gem relies on faraday ~> 0.9.0 so that gem
   cannot be updated until next release of puppet_forge gem.
+- Remove puppet 4 support.
 - Updated the version of simp-rake-helpers in Gemfile
   because earlier version has r10k dependency set to ~> 2.2.
 - Updated release for all dependencies so they would all be reinstalled
-  in the new simp-r10k directory.
-- Gem dependencies were being installed in r10k-<version> directory.  If r10k was
+  in the new simp-r10k directory.  Gem dependencies were being installed 
+  in r10k-<version> directory.  If r10k was
   updated it create a new r10k-<version> directory but if dependencies had
   not been updated they were not reinstalled in new directory. To fix this
   the version number was removed off the gem sub-directory. The release

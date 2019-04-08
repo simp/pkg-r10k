@@ -27,6 +27,11 @@ CONFIG:
   synced_folder : disabled
   type: aio
   vagrant_memsize: 256
-<% if ENV['BEAKER_PUPPET_ENVIRONMENT'] -%>
-  puppet_environment: <%= ENV['BEAKER_PUPPET_ENVIRONMENT'] %>
-<% end -%>
+<%
+  if ENV['BEAKER_PUPPET_COLLECTION']
+    puppet_env = ENV['BEAKER_PUPPET_COLLECTION']
+  else
+    puppet_env = 'puppet5'
+  end
+%>
+puppet_collection:  <%= puppet_env %>

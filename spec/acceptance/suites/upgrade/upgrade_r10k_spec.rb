@@ -22,7 +22,7 @@ def install_deps(host, osver)
 end
 
 def simp_deps_repo(host)
-  install_simp_deps_repo(host)
+  install_simp_repos(host, ['simp'])
   on(host, 'yum makecache')
 end
 
