@@ -148,4 +148,7 @@ end
 # Acceptance Tests
 Simp::Rake::Beaker.new(File.dirname(__FILE__))
 
+# make sure pkg:rpm is a prerequisite for beaker:suites
+Rake::Task['beaker:suites'].enhance ['pkg:rpm']
+
 # vim: syntax=ruby

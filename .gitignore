@@ -2,6 +2,8 @@
 /coverage
 /dist
 /pkg
+spec/acceptance/suites/*/nodesets
+spec/fixtures/
 /.rspec_system
 /.bundle
 /vendor
