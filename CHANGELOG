@@ -1,3 +1,23 @@
+* Mon Apr 01 2019 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.1.1
+- Updated source versions to use r10k 3.1.1 and updated
+  dependency gems where possible.  Latest puppet_forge
+  gem relies on faraday ~> 0.9.0 so that gem
+  cannot be updated until next release of puppet_forge gem.
+- Remove puppet 4 support.
+- Updated the version of simp-rake-helpers in Gemfile
+  because earlier version has r10k dependency set to ~> 2.2.
+- Updated release for all dependencies so they would all be reinstalled
+  in the new simp-r10k directory.  Gem dependencies were being installed 
+  in r10k-<version> directory.  If r10k was
+  updated it create a new r10k-<version> directory but if dependencies had
+  not been updated they were not reinstalled in new directory. To fix this
+  the version number was removed off the gem sub-directory. The release
+  versions had to be updated this one time to force reinstall in the new
+  versionless directory.
+- Add fixtures file so FIPS tests will pass.
+- updated Gemfile for simp-beaker-helpers to include new functions used in
+  testing
+
 * Wed Jan 16 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 2.6.2-2
 - Fixed bug in which the simp-vendored-r10k package did not require
   the 'git' package

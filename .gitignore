@@ -2,9 +2,13 @@
 /coverage
 /dist
 /pkg
+spec/acceptance/suites/*/nodesets
+spec/fixtures/
 /.rspec_system
 /.bundle
 /vendor
 Gemfile.lock
 build/simp-vendored-r10k.spec
 src/*
+/.vagrant
+/log

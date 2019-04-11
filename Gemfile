@@ -20,9 +20,9 @@ gem_sources.each { |gem_source| source gem_source }
 gem 'mg'
 gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~> 5.5')
 gem 'rake'
-gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 5.6')
+gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '>= 5.8.1')
 
-gem 'r10k', ENV.fetch('R10K_VERSION', '2.6.2')
+gem 'r10k', ENV.fetch('R10K_VERSION', '3.1.1')
 
 group :testing do
   # bootstrap common environment variables
@@ -33,6 +33,6 @@ group :testing do
   gem 'rspec-its'
 
   # A dependency of simp-rake-helpers
-  gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', ['>= 1.10.8', '< 2.0'])
+  gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', ['>= 1.14.0', '< 2.0'])
 
 end
