@@ -62,10 +62,10 @@ gems:
     url: https://github.com/intridea/multi_json
     release: 2
   multipart-post:
-    version: '2.0.0'
+    version: '2.1.1'
     license: MIT
     url: https://github.com/nicksieger/multipart-post
-    release: 2
+    release: 0
   puppet_forge:
     version: '2.2.8'
     license: MIT
