@@ -1,7 +1,7 @@
 * Wed May 22 2019 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.1.1-1
 - version of multipart-post updates in sources
 
-* Mon Apr 01 2019 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.1.1
+* Mon Apr 01 2019 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.1.1-0
 - Updated source versions to use r10k 3.1.1 and updated
   dependency gems where possible.  Latest puppet_forge
   gem relies on faraday ~> 0.9.0 so that gem
