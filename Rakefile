@@ -31,13 +31,16 @@ end
 task :checkout do
   deps['gems'].each do |gem,data|
     FileUtils.mkdir_p 'src/gems'
-      Dir.chdir('src/gems') do
-      next if Dir.exists? gem
-      if data['repo']
-        `git clone -q #{data['repo']} #{gem}`
-      else
-        `git clone -q #{data['url']} #{gem}`
+    puts "Checkout out gem #{gem} #{data['version']}"
+    Dir.chdir('src/gems') do
+      unless File.exist?(File.join(gem, "#{gem}.gemspec"))
+        if data['repo']
+          `git clone -q #{data['repo']} #{gem}`
+        else
+          `git clone -q #{data['url']} #{gem}`
+        end
       end
+
       Dir.chdir(gem) do
         `git fetch -q`
         `git checkout -q #{data['version']} 2> /dev/null`
@@ -67,6 +70,7 @@ namespace :pkg do
   desc 'build rubygem sub-packages'
   task :gem => ['dist', :checkout] do
     deps['gems'].each do |gem,data|
+      puts "Building gem #{gem} #{data['version']}"
       Dir.chdir("src/gems/#{gem}") do |d|
         # multi_json requires a signing key, we don't have one
         sh "sed -i '/signing_key/d' #{gem}.gemspec" if gem == 'multi_json'
