@@ -1,3 +1,7 @@
+* Mon Jun 24 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 3.3.0-0
+- Updated source versions to use r10k 3.3.0 and its corresponding
+  gem dependencies
+
 * Wed May 22 2019 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.1.1-1
 - version of multipart-post updates in sources
 
