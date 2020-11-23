@@ -113,6 +113,13 @@ variables:
   tags: ['beaker']
   <<: *setup_bundler_env
 
+pkg_rpm:
+  stage: 'validation'
+  tags: ['rpmbuild']
+  <<: *setup_bundler_env
+  script:
+    - 'bundle exec rake pkg:rpm'
+    - 'bundle exec rake clean'
 
 # Pipeline / testing matrix
 #=======================================================================

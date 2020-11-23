@@ -3,8 +3,8 @@ cache: bundler
 sudo: false
 
 stages:
-  - check
-  - spec
+  ###  - check
+  ###  - spec
   - name: deploy
     if: 'tag IS present'
 
@@ -13,32 +13,28 @@ bundler_args: --without development system_tests --path .vendor
 notifications:
   email: false
 
-addons:
-  apt:
-    packages:
-      - rpm
-
 rvm:
   - 2.4.4
 
-before_install:
-  - rm -f Gemfile.lock
-  - gem install -v '~> 1.16.0' bundler
-  - gem list bundler
-
 jobs:
   include:
-    - stage: check
-      script:
-        - bundle exec rake pkg:create_tag_changelog
-
-    - stage: spec
-      sudo: required
-      services:
-        - docker
-      script:
-        - bundle exec rake pkg:rpm
-        - bundle exec rake clean
+    ###  Testing on Travis CI is indefinitely disabled
+    ###
+    ###  See:
+    ###    * https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing
+    ###    * https://simp-project.atlassian.net/browse/SIMP-8703
+    ###
+    ###    - stage: check
+    ###      script:
+    ###        - bundle exec rake pkg:create_tag_changelog
+    ###
+    ###    - stage: spec
+    ###      sudo: required
+    ###      services:
+    ###        - docker
+    ###      script:
+    ###        - bundle exec rake pkg:rpm
+    ###        - bundle exec rake clean
 
     - stage: deploy
       script:
