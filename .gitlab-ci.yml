@@ -116,6 +116,7 @@ variables:
 pkg_rpm:
   stage: 'validation'
   tags: ['rpmbuild']
+  <<: *pup_6
   <<: *setup_bundler_env
   script:
     - 'bundle exec rake pkg:rpm'
