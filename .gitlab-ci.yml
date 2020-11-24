@@ -107,7 +107,6 @@ variables:
     - 'bundle exec rake lint'
     - 'bundle exec rake metadata_lint'
 
-
 .acceptance_base: &acceptance_base
   stage: 'acceptance'
   tags: ['beaker']
@@ -119,6 +118,8 @@ pkg_rpm:
   <<: *pup_6
   <<: *setup_bundler_env
   script:
+    - 'if `hash apt-get`; then apt-get update; fi'
+    - 'if `hash apt-get`; then apt-get install -y rpm; fi'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake clean'
 
