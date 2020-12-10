@@ -19,7 +19,7 @@ version of r10k is present on the system.
 
 * The build process creates RPMs for the r10k gem and each of its dependencies.
 * The `r10k` executable is installed into `/usr/share/simp/bin/r10k`
-
+* Tested against Puppet 5.5 and Puppet 6
 
 ## Setup
 

@@ -104,7 +104,7 @@ pkg_rpm:
 #=======================================================================
 
 releng_checks:
-  <<: *pup_5
+  <<: *pup_5_5_20
   <<: *setup_bundler_env
   stage: 'validation'
   tags: ['docker']
