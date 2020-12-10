@@ -5,6 +5,7 @@
   - The `colored` gem has been deprecated in favor of `colored2`
 - Fixed:
   - Fixed `rake gem_update` to (mostly) correctly update `build/sources.yaml`
+  - Re-enabled the simp community repo in acceptance tests
 - Added:
   - Project README.md
   - Enhancements to `rake gem_update`:
