@@ -118,8 +118,9 @@ pkg_rpm:
   <<: *pup_6
   <<: *setup_bundler_env
   script:
-    - 'if `hash apt-get`; then apt-get update; fi'
-    - 'if `hash apt-get`; then apt-get install -y rpm; fi'
+    - 'command -v rpmbuild || if command -v apt-get; then apt-get update; apt-get install -y rpm; fi ||:'
+    - 'command -v rpmbuild || if command -v yum; then yum install -y rpm-build; fi ||:'
+    - 'command -v rpmbuild || { >&2 echo "FATAL: Cannot find executable: ''rpmbuild''";  exit 1 ;}'
     - 'bundle exec rake pkg:rpm'
     - 'bundle exec rake clean'
 
@@ -134,8 +135,8 @@ sanity_checks:
   script:
 # The puppet gem is used by one of the scripts in this
 # project, but puppet module checks are inapplicable
-    - 'if `hash apt-get`; then apt-get update; fi'
-    - 'if `hash apt-get`; then apt-get install -y rpm; fi'
+    - 'command -v rpm || if command -v apt-get; then apt-get update; apt-get install -y rpm; fi ||:'
+    - 'command -v rpm || { >&2 echo "FATAL: Cannot find executable: ''rpm''";  exit 1 ;}'
 #    - 'bundle exec rake check:dot_underscore'
 #    - 'bundle exec rake check:test_file'
 #    - 'bundle exec rake pkg:check_version'
