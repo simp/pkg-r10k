@@ -1,3 +1,22 @@
+* Wed Dec 09 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.7.0-0
+- Changed:
+  - Updated source versions to use r10k 3.7.0 and its corresponding
+    gem dependencies
+  - The `colored` gem has been deprecated in favor of `colored2`
+- Fixed:
+  - Fixed `rake gem_update` to (mostly) correctly update `build/sources.yaml`
+- Added:
+  - Project README.md
+  - Enhancements to `rake gem_update`:
+    - Resolves r10k gem dependencies from the r10k gem on rubygems.org
+    - Updates version, url, repo, and license
+    - When it can't safely update a url, it will print a warning (helpful because log4r is a
+    - Adds new gem deps, removes old ones
+  - Enhancements to `rake pkg:gem`:
+    - Hack for git clone of untagged `log4r` release
+  - Removed:
+    - Old hacks for `colored` gem
+
 * Mon Jun 24 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 3.3.0-0
 - Updated source versions to use r10k 3.3.0 and its corresponding
   gem dependencies
@@ -14,7 +33,7 @@
 - Updated the version of simp-rake-helpers in Gemfile
   because earlier version has r10k dependency set to ~> 2.2.
 - Updated release for all dependencies so they would all be reinstalled
-  in the new simp-r10k directory.  Gem dependencies were being installed 
+  in the new simp-r10k directory.  Gem dependencies were being installed
   in r10k-<version> directory.  If r10k was
   updated it create a new r10k-<version> directory but if dependencies had
   not been updated they were not reinstalled in new directory. To fix this
