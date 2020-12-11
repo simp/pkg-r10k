@@ -23,6 +23,7 @@ gem 'rake'
 gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '>= 5.8.1')
 
 gem 'r10k', ENV.fetch('R10K_VERSION', '3.1.1')
+gem 'rest-client'
 
 group :testing do
   # bootstrap common environment variables

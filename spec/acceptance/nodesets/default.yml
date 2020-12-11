@@ -6,15 +6,6 @@
   end
 -%>
 HOSTS:
-  el6:
-    roles:
-      - server
-      - default
-      - master
-      - client
-    platform: el-6-x86_64
-    box: centos/6
-    hypervisor: <%= hypervisor %>
   el7:
     roles:
       - client
@@ -31,7 +22,7 @@ CONFIG:
   if ENV['BEAKER_PUPPET_COLLECTION']
     puppet_env = ENV['BEAKER_PUPPET_COLLECTION']
   else
-    puppet_env = 'puppet5'
+    puppet_env = 'puppet6'
   end
 %>
 puppet_collection:  <%= puppet_env %>

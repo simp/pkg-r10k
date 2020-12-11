@@ -6,9 +6,10 @@ require 'simp/rake'
 require 'simp/rake/beaker'
 require 'erb'
 require 'yaml'
+require 'rest-client'
 
 pkg = Simp::Rake::Pkg.new(File.dirname(__FILE__))
-# Simp::RakePkg decides where the RPM spec file for a project is in
+# Simp::Rake::Pkg decides where the RPM spec file for a project is in
 # its constructor.  However, for this project, the spec file will be
 # generated.  So need to tell it where the spec file will be found.
 pkg.spec_file = File.join(File.dirname(__FILE__), 'build', 'simp-vendored-r10k.spec')
@@ -28,6 +29,7 @@ Find.find( @rakefile_dir ) do |path|
   end
 end
 
+desc 'Check out each r10k gem repository (uses build/sources.yaml)'
 task :checkout do
   deps['gems'].each do |gem,data|
     FileUtils.mkdir_p 'src/gems'
@@ -42,19 +44,109 @@ task :checkout do
       end
 
       Dir.chdir(gem) do
-        `git fetch -q`
-        `git checkout -q #{data['version']} 2> /dev/null`
-        `git checkout -q v#{data['version']} 2> /dev/null`
+        sh 'git fetch -q'
+        checkout_attempts = [
+          "git checkout -q #{data['version']} 2> /dev/null",
+          "git checkout -q v#{data['version']} 2> /dev/null",
+        ]
+
+        # The log4r github repo doesn't have any tags, and its last release
+        # (1.1.10) was in 2012.  However, the master branch has accumulated
+        # many more commits over the years (and some of them may have been
+        # breaking changes: https://github.com/colbygk/log4r/issues/26)
+        if data['repo'] == 'https://github.com/colbygk/log4r' && data['version'] == '1.1.10'
+          # This is the commit the released log4r 1.1.10 gem was built from
+          checkout_attempts << 'git checkout -q 40e2c2edd657a21b34f09dec7de238f348b6f428 2> /dev/null'
+        end
+
+        sh checkout_attempts.join(' || ')
       end
     end
   end
 end
 
-task :gem_update do
-  deps['gems'].each do |gem,data|
-    data['version'] = Gem.latest_spec_for(gem).version.to_s
+def sanitize_github_repo_uri(str)
+  return unless (str =~ %r{\Ahttps?://github.com/})
+  res = str.dup
+  res.sub!(%r{\Ahttp:},'https:')
+  res.sub!(%r{(https://github.com/[^/]+/[^/]+)/.*}, '\1')
+  res.sub!(%r{/\Z},'')
+  res
+end
+
+desc <<~DESC
+  Update gems in build/sources.yaml to latest available versions
+
+  This task will
+DESC
+task :gem_update, [:r10k_version] do |_t, args|
+  version = args.with_defaults(r10k_version: nil)
+  new_deps = Marshal.load(Marshal.dump(deps))
+  require 'tmpdir'
+  require 'rubygems/remote_fetcher' # needed this with Ruby 2.5
+  require 'rubygems/name_tuple'     # needed this w/2.4 & 2.5
+  dep = Gem::Dependency.new 'r10k', version
+  set = Gem::RequestSet.new dep
+  requests = set.resolve
+
+  removed_gems = deps['gems'].keys - (requests.map{|r| r.name })
+  removed_gems.each do |g|
+      warn ''
+      warn '!'*80
+      warn "WARNING: **REMOVING GEM** (no longer required): '#{g}'"
+      warn '!'*80
+      new_deps['gems'].delete(g)
   end
-  File.write('build/sources.yaml', deps.to_yaml)
+
+  new_gems = []
+  updated_gems = []
+  requests.each do |r|
+    data = nil
+    data = new_deps['gems'][r.name] ||= {}
+
+    if data.empty?
+      warn '', '='*80, "WARNING: **NEW GEM** dependency found: '#{r.name}'", '='*80
+    end
+
+    data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] + 1 : 0
+    data['version'] = r.version.to_s
+
+    Gem.sources.to_a.each do |gem_src|
+      url = "#{gem_src}/api/v2/rubygems/#{r.name}/versions/#{r.version}.json"
+      j = RestClient.get url, {content_type: :json, accept: :json}
+      api_data = JSON.parse(j)
+      if api_data['licenses'] && api_data['licenses'] != data['license'].to_s
+        data['license'] = api_data['licenses'].join(' or ')
+      end
+      data['license'] ||= 'UNKNOWN'
+
+      if api_data['source_code_uri']
+        a_uri = sanitize_github_repo_uri(api_data['source_code_uri'])
+        g_uri = sanitize_github_repo_uri(data['repo'])
+
+        unless a_uri == g_uri
+          warn ''
+          warn "'#{r.name}' gem repo source_code_uri is different than 'repo' URL in 'build/sources.yaml'"
+          warn "              File: #{data['repo']}"
+          warn "              Gem:  #{api_data['source_code_uri']}"
+          warn "         CHECK MANUALLY!  (Keeping the old version in case the gem version is nonsense)"
+        else
+          data['repo'] = a_uri
+        end
+      end
+
+      if (data['repo'] && r.full_spec.homepage != data['url']) || (!data['url'])
+        data['url'] = r.full_spec.homepage
+      end
+
+      if data['url'] && !data['repo']
+        data['repo'] ||= sanitize_github_repo_uri(data['url'])
+      end
+    end
+  end
+
+  new_deps['version'] = new_deps['gems']['r10k']['version']
+  File.write('build/sources.yaml', new_deps.to_yaml)
 end
 
 task :rpms_present do
@@ -74,10 +166,6 @@ namespace :pkg do
       Dir.chdir("src/gems/#{gem}") do |d|
         # multi_json requires a signing key, we don't have one
         sh "sed -i '/signing_key/d' #{gem}.gemspec" if gem == 'multi_json'
-        # this is a very old gem and newer versions of rubygems require a LICENSE
-        # the master branch has one but there will be no new release
-        sh 'curl -s https://raw.githubusercontent.com/defunkt/colored/master/LICENSE > LICENSE' if gem == 'colored'
-
         `gem build --silent #{gem}.gemspec`
         FileUtils.mkdir_p 'dist'
         FileUtils.mv Dir.glob('*.gem'), File.join(@rakefile_dir, 'dist')

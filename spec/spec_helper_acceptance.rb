@@ -6,10 +6,6 @@ include Simp::BeakerHelpers
 
 unless ENV['BEAKER_provision'] == 'no'
   hosts.each do |host|
-    # Install system ruby, as some of simp-utils scripts
-    # use system ruby
-    host.install_package('ruby')
-
     # Install Puppet
     # Acceptance tests need puppet in order to turn FIPS mode on
     if host.is_pe?
