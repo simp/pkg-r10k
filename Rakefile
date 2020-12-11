@@ -9,7 +9,7 @@ require 'yaml'
 require 'rest-client'
 
 pkg = Simp::Rake::Pkg.new(File.dirname(__FILE__))
-# Simp::RakePkg decides where the RPM spec file for a project is in
+# Simp::Rake::Pkg decides where the RPM spec file for a project is in
 # its constructor.  However, for this project, the spec file will be
 # generated.  So need to tell it where the spec file will be found.
 pkg.spec_file = File.join(File.dirname(__FILE__), 'build', 'simp-vendored-r10k.spec')
