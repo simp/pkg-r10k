@@ -1,3 +1,6 @@
+* Wed Sep 01 2021 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.11.0-0
+- Updated source versions to use r10k 3.11.0 and its corresponding
+
 * Wed Dec 09 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.7.0-0
 - Changed:
   - Updated source versions to use r10k 3.7.0 and its corresponding
