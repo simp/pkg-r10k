@@ -1,5 +1,9 @@
 * Wed Sep 01 2021 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.11.0-0
-- Updated source versions to use r10k 3.11.0 and its corresponding
+- Updated source versions to use r10k 3.11.0 and its corresponding gems
+- Update Rakefile task pkg:rpm to add macro brp_mangle_shebangs so the shebangs
+  in bash files would be /usr/bin/env ruby instead of pointing to the system ruby.
+- Gem jwt, has a non standard gemspec file name.  Added a check for this so
+  it would build the gem.
 
 * Wed Dec 09 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.7.0-0
 - Changed:

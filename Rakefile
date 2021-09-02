@@ -166,7 +166,11 @@ namespace :pkg do
       Dir.chdir("src/gems/#{gem}") do |d|
         # multi_json requires a signing key, we don't have one
         sh "sed -i '/signing_key/d' #{gem}.gemspec" if gem == 'multi_json'
-        `gem build --silent #{gem}.gemspec`
+        if gem == 'jwt'
+          `gem build --silent ruby-jwt.gemspec`
+        else
+          `gem build --silent #{gem}.gemspec`
+        end
         FileUtils.mkdir_p 'dist'
         FileUtils.mv Dir.glob('*.gem'), File.join(@rakefile_dir, 'dist')
       end
@@ -219,6 +223,9 @@ namespace :pkg do
     rpm_cmd  = []
     rpm_cmd << 'rpmbuild'
     rpm_cmd << "-D '_topdir #{buildroot}'"
+    # needed on EL8 to disable the aggressive brp_mangle_shebangs script
+    # that results in invalid script shebangs; does nothing in EL7
+    rpm_cmd << "-D '__brp_mangle_shebangs /usr/bin/true'"
     rpm_cmd << '-v -ba build/simp-vendored-r10k.spec'
     sh rpm_cmd.join(' ')
 
