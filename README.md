@@ -53,6 +53,18 @@ To update to the latest version of r10k and package all its gems:
    git diff build/sources.yaml
    ```
 
+   To checkout a specifice version run:
+   ```sh
+   bundle exec rake gem_update[<version>]
+   ```
+
+  If you have changed the packaging and need to update the release
+  version for packages already released run
+
+   ```sh
+   R10K_force_release_update=yes bundle exec rake gem_update
+   ```
+  
 2. Verify that the data in `build/sources.yaml` is correct
 
 3. Check out gems and build RPMs using the data in `build/sources.yaml`

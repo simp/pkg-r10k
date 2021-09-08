@@ -79,11 +79,12 @@ desc <<~DESC
 
   This task will
 DESC
-task :gem_update, [:r10k_version, :update_release] do |_t, args|
+task :gem_update, [:r10k_version] do |_t, args|
 
-  args.with_defaults(:r10k_version => nil, :update_release => false )
+  args.with_defaults(:r10k_version => nil )
   version = args.r10k_version
-  force_release_update = args.update_release
+  update_rel_versions = ENV['R10K_force_release_update'] || false
+  force_release_update = ['yes','y','true','force','update'].include?(update_rel_versions)
 
   new_deps = Marshal.load(Marshal.dump(deps))
   require 'tmpdir'
