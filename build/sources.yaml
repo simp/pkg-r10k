@@ -7,99 +7,99 @@ gems:
     license: MIT
     url: https://github.com/ddfreyne/cri
     repo: https://github.com/ddfreyne/cri
-    release: 3
+    release: 1
   faraday:
     version: 0.17.4
     license: MIT
     url: https://lostisland.github.io/faraday
     repo: https://github.com/lostisland/faraday
-    release: 2
+    release: 1
   faraday_middleware:
     version: 0.14.0
     license: MIT
     url: https://github.com/lostisland/faraday_middleware
     repo: https://github.com/lostisland/faraday_middleware
-    release: 3
+    release: 1
   fast_gettext:
     version: 1.1.2
     license: MIT or Ruby
     url: http://github.com/grosser/fast_gettext
     repo: https://github.com/grosser/fast_gettext
-    release: 6
+    release: 4
   gettext:
     version: 3.2.9
     license: Ruby or LGPLv3+
     url: http://ruby-gettext.github.com/
     repo: https://github.com/ruby-gettext/gettext
-    release: 6
+    release: 4
   gettext-setup:
     version: '0.34'
     license: Apache-2.0
     url: https://github.com/puppetlabs/gettext-setup-gem
     repo: https://github.com/puppetlabs/gettext-setup-gem
-    release: 3
+    release: 1
   locale:
     version: 2.1.3
     license: Ruby or LGPLv3+
     url: https://github.com/ruby-gettext/locale
     repo: https://github.com/ruby-gettext/locale
-    release: 3
+    release: 1
   log4r:
     version: 1.1.10
     license: MIT
-    url: https://github.com/colbygk/log4r
+    url: http://log4r.rubyforge.org
     repo: https://github.com/colbygk/log4r
-    release: 7
+    release: 5
   minitar:
     version: '0.9'
     license: Ruby or BSD-2-Clause
     url: https://github.com/halostatue/minitar/
     repo: https://github.com/halostatue/minitar
-    release: 3
+    release: 1
   multi_json:
     version: 1.15.0
     license: MIT
     url: https://github.com/intridea/multi_json
     repo: https://github.com/intridea/multi_json
-    release: 3
+    release: 1
   multipart-post:
     version: 2.1.1
     license: MIT
     url: https://github.com/nicksieger/multipart-post
     repo: https://github.com/nicksieger/multipart-post
-    release: 5
+    release: 3
   puppet_forge:
     version: 2.3.4
     license: Apache-2.0
     url: https://github.com/puppetlabs/forge-ruby
     repo: https://github.com/puppetlabs/forge-ruby
-    release: 3
+    release: 1
   r10k:
     version: 3.11.0
     license: Apache-2.0
     url: https://github.com/puppetlabs/r10k
     repo: https://github.com/puppetlabs/r10k
-    release: 2
+    release: 1
   semantic_puppet:
     version: 1.0.4
     license: Apache-2.0
     url: https://github.com/puppetlabs/semantic_puppet
     repo: https://github.com/puppetlabs/semantic_puppet
-    release: 2
+    release: 1
   text:
     version: 1.3.1
     license: MIT
     url: http://github.com/threedaymonk/text
     repo: http://github.com/threedaymonk/text
-    release: 6
+    release: 4
   colored2:
-    release: 3
+    release: 1
     version: 3.1.2
     license: MIT
     url: http://github.com/kigster/colored2
     repo: https://github.com/kigster/colored2
   jwt:
-    release: 0
+    release: 1
     version: 2.2.3
     license: MIT
     url: https://github.com/jwt/ruby-jwt

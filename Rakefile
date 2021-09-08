@@ -79,8 +79,12 @@ desc <<~DESC
 
   This task will
 DESC
-task :gem_update, [:r10k_version] do |_t, args|
-  version = args.with_defaults(r10k_version: nil)
+task :gem_update, [:r10k_version, :update_release] do |_t, args|
+
+  args.with_defaults(:r10k_version => nil, :update_release => false )
+  version = args.r10k_version
+  force_release_update = args.update_release
+
   new_deps = Marshal.load(Marshal.dump(deps))
   require 'tmpdir'
   require 'rubygems/remote_fetcher' # needed this with Ruby 2.5
@@ -108,7 +112,15 @@ task :gem_update, [:r10k_version] do |_t, args|
       warn '', '='*80, "WARNING: **NEW GEM** dependency found: '#{r.name}'", '='*80
     end
 
-    data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] + 1 : 0
+
+    if force_release_update 
+      data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] + 1 : 1
+    else
+      data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] : 1
+      # We now use 1 as baseline but before it was 0.  So check if it used to be 0
+      # und update it to 1
+      data['release'] = (data['release'] == 0) ? 1 : data['release']
+    end
     data['version'] = r.version.to_s
 
     Gem.sources.to_a.each do |gem_src|
