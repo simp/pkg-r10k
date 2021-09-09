@@ -31,28 +31,36 @@ test_name 'upgrade simp vendored r10k'
 describe 'upgrade simp vendored r10k' do
 
   hosts.each do |host|
+
     let(:dist_dir) { File.join(File.dirname(__FILE__), '../../../../dist/') }
 
     let(:expected_version) {  %x{rpm -qp "#{dist_dir}/simp-vendored-r10k-gem-r10k*.rpm" --info | grep Version}.split(':')[1].strip }
 
     osmajver = fact_on(host, 'operatingsystemmajrelease')
 
-    context 'install simp_vendored r10k from simp deps repo' do
-      it 'should install repos ' do
-        install_deps(host, osmajver)
-        simp_deps_repo(host)
-        on(host, 'yum install -y simp-vendored-r10k')
-        on(host, '/usr/share/simp/bin/r10k')
+    context "install simp_vendored r10k from simp deps repo on el#{osmajver}" do
+
+      it "should install repos" do
+        if osmajver >= '8'
+          skip("Can't run this test on EL8 until the EL8 simp erpos get setup")
+        else
+          install_deps(host, osmajver)
+          simp_deps_repo(host)
+          on(host, 'yum install -y simp-vendored-r10k')
+          on(host, 'echo "run r10k first time";/usr/share/simp/bin/r10k version')
+        end
       end
 
-      it 'should install and run the new version r10k' do
-        create_repo(host, '/rpms', dist_dir)
-        on(host, 'yum update -y --nogpgcheck')
-        result = on(host, '/usr/share/simp/bin/r10k version').stdout
-        expect(result.strip).to eq("r10k #{expected_version}")
+      it "should install and run the new version r10k" do
+        if osmajver >= '8'
+          skip("Can't run this test on EL8 until the EL8 simp erpos get setup")
+        else
+          create_repo(host, '/rpms', dist_dir)
+          on(host, 'yum update -y --nogpgcheck')
+          result = on(host, '/usr/share/simp/bin/r10k version').stdout
+          expect(result.strip).to eq("r10k #{expected_version}")
+        end
       end
-
     end
-
   end
 end
