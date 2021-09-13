@@ -56,20 +56,19 @@ variables:
 # Puppet Versions
 #-----------------------------------------------------------------------
 
-.pup_5_5_20: &pup_5_5_20
+.pup_6_X: &pup_6_X
   image: 'ruby:2.5'
   variables:
-    PUPPET_VERSION: '5.5.20'
-    BEAKER_PUPPET_COLLECTION: 'puppet5'
-    MATRIX_RUBY_VERSION: '2.5'
-
-.pup_6_18: &pup_6_18
-  image: 'ruby:2.5'
-  variables:
-    PUPPET_VERSION: '~> 6.18.0'
+    PUPPET_VERSION: '~> 6.0'
     BEAKER_PUPPET_COLLECTION: 'puppet6'
     MATRIX_RUBY_VERSION: '2.5'
 
+.pup_7_x: &pup_7_X
+  image: 'ruby:2.7'
+  variables:
+    PUPPET_VERSION: '~> 7.0'
+    BEAKER_PUPPET_COLLECTION: 'puppet7'
+    MATRIX_RUBY_VERSION: '2.7'
 
 # Testing Environments
 #-----------------------------------------------------------------------
@@ -91,7 +90,7 @@ variables:
 pkg_rpm:
   stage: 'validation'
   tags: ['rpmbuild']
-  <<: *pup_6_18
+  <<: *pup_6_X
   <<: *setup_bundler_env
   script:
     - 'command -v rpmbuild || if command -v apt-get; then apt-get update; apt-get install -y rpm; fi ||:'
@@ -104,7 +103,7 @@ pkg_rpm:
 #=======================================================================
 
 releng_checks:
-  <<: *pup_5_5_20
+  <<: *pup_6_X
   <<: *setup_bundler_env
   stage: 'validation'
   tags: ['docker']
@@ -117,38 +116,38 @@ releng_checks:
 # Acceptance tests
 # ==============================================================================
 
-pup5.5.20:
-  <<: *pup_5_5_20
+pup_6_X:
+  <<: *pup_6_X
   <<: *acceptance_base
   script:
-    - 'bundle exec rake beaker:suites'
+    - 'bundle exec rake beaker:suites[default,default]'
     - 'bundle exec rake beaker:suites[upgrade,default]'
 
-pup6.18:
-  <<: *pup_6_18
+pup_7_X:
+  <<: *pup_7_X
   <<: *acceptance_base
   script:
-    - 'bundle exec rake beaker:suites'
+    - 'bundle exec rake beaker:suites[default,default]'
     - 'bundle exec rake beaker:suites[upgrade,default]'
 
-pup5.5.20-fips:
-  <<: *pup_5_5_20
+pup6-fips:
+  <<: *pup_6_X
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
-    - 'BEAKER_fips=yes bundle exec rake beaker:suites'
+    - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,default]'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,default]'
 
-pup5.5.20-oel:
-  <<: *pup_5_5_20
+pup6-oel:
+  <<: *pup_6_X
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
     - 'bundle exec rake beaker:suites[default,oel]'
     - 'bundle exec rake beaker:suites[upgrade,oel]'
 
-pup5.5.20-oel-fips:
-  <<: *pup_5_5_20
+pup6-oel-fips:
+  <<: *pup_6_X
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:

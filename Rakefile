@@ -80,7 +80,12 @@ desc <<~DESC
   This task will
 DESC
 task :gem_update, [:r10k_version] do |_t, args|
-  version = args.with_defaults(r10k_version: nil)
+
+  args.with_defaults(:r10k_version => nil )
+  version = args.r10k_version
+  update_rel_versions = ENV['R10K_force_release_update'] || false
+  force_release_update = ['yes','y','true','force','update'].include?(update_rel_versions)
+
   new_deps = Marshal.load(Marshal.dump(deps))
   require 'tmpdir'
   require 'rubygems/remote_fetcher' # needed this with Ruby 2.5
@@ -108,7 +113,15 @@ task :gem_update, [:r10k_version] do |_t, args|
       warn '', '='*80, "WARNING: **NEW GEM** dependency found: '#{r.name}'", '='*80
     end
 
-    data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] + 1 : 0
+
+    if force_release_update 
+      data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] + 1 : 1
+    else
+      data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] : 1
+      # We now use 1 as baseline but before it was 0.  So check if it used to be 0
+      # und update it to 1
+      data['release'] = (data['release'] == 0) ? 1 : data['release']
+    end
     data['version'] = r.version.to_s
 
     Gem.sources.to_a.each do |gem_src|
@@ -166,7 +179,11 @@ namespace :pkg do
       Dir.chdir("src/gems/#{gem}") do |d|
         # multi_json requires a signing key, we don't have one
         sh "sed -i '/signing_key/d' #{gem}.gemspec" if gem == 'multi_json'
-        `gem build --silent #{gem}.gemspec`
+        if gem == 'jwt'
+          `gem build --silent ruby-jwt.gemspec`
+        else
+          `gem build --silent #{gem}.gemspec`
+        end
         FileUtils.mkdir_p 'dist'
         FileUtils.mv Dir.glob('*.gem'), File.join(@rakefile_dir, 'dist')
       end
@@ -219,6 +236,9 @@ namespace :pkg do
     rpm_cmd  = []
     rpm_cmd << 'rpmbuild'
     rpm_cmd << "-D '_topdir #{buildroot}'"
+    # needed on EL8 to disable the aggressive brp_mangle_shebangs script
+    # that results in invalid script shebangs; does nothing in EL7
+    rpm_cmd << "-D '__brp_mangle_shebangs /usr/bin/true'"
     rpm_cmd << '-v -ba build/simp-vendored-r10k.spec'
     sh rpm_cmd.join(' ')
 
