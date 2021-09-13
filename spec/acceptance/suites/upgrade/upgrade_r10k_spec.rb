@@ -42,7 +42,7 @@ describe 'upgrade simp vendored r10k' do
 
       it "should install repos" do
         if osmajver >= '8'
-          skip("Can't run this test on EL8 until the EL8 simp erpos get setup")
+          skip("Can't run this test on EL8 until the EL8 simp repos get setup")
         else
           install_deps(host, osmajver)
           simp_deps_repo(host)
@@ -53,7 +53,7 @@ describe 'upgrade simp vendored r10k' do
 
       it "should install and run the new version r10k" do
         if osmajver >= '8'
-          skip("Can't run this test on EL8 until the EL8 simp erpos get setup")
+          skip("Can't run this test on EL8 until the EL8 simp repos get setup")
         else
           create_repo(host, '/rpms', dist_dir)
           on(host, 'yum update -y --nogpgcheck')
