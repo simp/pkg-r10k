@@ -90,7 +90,7 @@ mkdir -p %{buildroot}/%{_var}/simp/cache/r10k
 
 %{lua:
   for i=11,<%= source - 1 %> do
-    print("gem install --local --install-dir ")
+    print("gem install --local --no-user-install --install-dir ")
     print(rpm.expand("%{buildroot}"))
     print("/")
     print(rpm.expand("%{geminstdir}"))

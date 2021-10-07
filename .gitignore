@@ -12,3 +12,4 @@ build/simp-vendored-r10k.spec
 src/*
 /.vagrant
 /log
+/.vendor

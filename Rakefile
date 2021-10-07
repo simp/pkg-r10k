@@ -28,12 +28,13 @@ Find.find( @rakefile_dir ) do |path|
     Find.prune
   end
 end
+CLEAN_ENV_METHOD = Bundler.respond_to?(:with_unbundled_env) ? :with_unbundled_env : :with_clean_env
 
 desc 'Check out each r10k gem repository (uses build/sources.yaml)'
 task :checkout do
   deps['gems'].each do |gem,data|
     FileUtils.mkdir_p 'src/gems'
-    puts "Checkout out gem #{gem} #{data['version']}"
+    puts "Cloning gem #{gem} #{data['version']}"
     Dir.chdir('src/gems') do
       unless File.exist?(File.join(gem, "#{gem}.gemspec"))
         if data['repo']
@@ -113,8 +114,7 @@ task :gem_update, [:r10k_version] do |_t, args|
       warn '', '='*80, "WARNING: **NEW GEM** dependency found: '#{r.name}'", '='*80
     end
 
-
-    if force_release_update 
+    if force_release_update
       data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] + 1 : 1
     else
       data['release'] = (r.version.to_s == data['version'].to_s) ? data['release'] : 1
@@ -177,15 +177,17 @@ namespace :pkg do
     deps['gems'].each do |gem,data|
       puts "Building gem #{gem} #{data['version']}"
       Dir.chdir("src/gems/#{gem}") do |d|
-        # multi_json requires a signing key, we don't have one
-        sh "sed -i '/signing_key/d' #{gem}.gemspec" if gem == 'multi_json'
-        if gem == 'jwt'
-          `gem build --silent ruby-jwt.gemspec`
-        else
-          `gem build --silent #{gem}.gemspec`
+        ::Bundler.send(CLEAN_ENV_METHOD) do
+          # multi_json requires a signing key, we don't have one
+          sh "sed -i '/signing_key/d' #{gem}.gemspec" if gem == 'multi_json'
+          if gem == 'jwt'
+            sh 'gem build --silent ruby-jwt.gemspec'
+          else
+            sh "gem build --silent #{gem}.gemspec"
+          end
+          FileUtils.mkdir_p 'dist'
+          FileUtils.mv Dir.glob('*.gem'), File.join(@rakefile_dir, 'dist')
         end
-        FileUtils.mkdir_p 'dist'
-        FileUtils.mv Dir.glob('*.gem'), File.join(@rakefile_dir, 'dist')
       end
     end
   end
@@ -240,7 +242,10 @@ namespace :pkg do
     # that results in invalid script shebangs; does nothing in EL7
     rpm_cmd << "-D '__brp_mangle_shebangs /usr/bin/true'"
     rpm_cmd << '-v -ba build/simp-vendored-r10k.spec'
-    sh rpm_cmd.join(' ')
+
+    ::Bundler.send(CLEAN_ENV_METHOD) do
+      sh rpm_cmd.join(' ')
+    end
 
     FileUtils.cp Dir.glob('dist/RPMBUILD/RPMS/noarch/*.rpm'), 'dist'
   end

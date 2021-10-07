@@ -1,3 +1,6 @@
+* Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-2
+- Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment
+
 * Wed Sep 01 2021 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.11.0-1
 - Updated source versions to use r10k 3.11.0 and its corresponding gems
 - Update Rakefile task pkg:rpm to add macro brp_mangle_shebangs so the shebangs
