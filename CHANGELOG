@@ -1,4 +1,4 @@
-* Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-2
+* Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-1
 - Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment
 
 * Wed Sep 01 2021 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.11.0-1
