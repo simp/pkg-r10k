@@ -1,3 +1,6 @@
+* Tue Oct 12 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-1
+- Updated r10k gem to 3.12.1
+
 * Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-1
 - Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment
 - Add generated .spec file to git, so `pkg:single` can build it

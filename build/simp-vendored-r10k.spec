@@ -4,7 +4,7 @@
 %global simp_bindir /usr/share/simp/bin
 %global geminstdir %{gemdir}/%{pkgname}
 
-%global r10k_version 3.11.0
+%global r10k_version 3.12.1
 
 # gem2ruby's method of installing gems into mocked build roots will blow up
 # unless this line is present:
@@ -39,7 +39,7 @@ Requires: rubygem(%{pkgname}-minitar) >= 0.9
 Requires: rubygem(%{pkgname}-multi_json) >= 1.15.0
 Requires: rubygem(%{pkgname}-multipart-post) >= 2.1.1
 Requires: rubygem(%{pkgname}-puppet_forge) >= 2.3.4
-Requires: rubygem(%{pkgname}-r10k) >= 3.11.0
+Requires: rubygem(%{pkgname}-r10k) >= 3.12.1
 Requires: rubygem(%{pkgname}-semantic_puppet) >= 1.0.4
 Requires: rubygem(%{pkgname}-text) >= 1.3.1
 Requires: rubygem(%{pkgname}-colored2) >= 3.1.2
@@ -76,7 +76,7 @@ postrun scripts suited to a SIMP environment.
 %package gem-cri
 Summary: A cri Gem for use with %{name}
 Version: 2.15.10
-Release: 1
+Release: 2
 License: MIT
 URL: https://github.com/ddfreyne/cri
 Source11: cri-2.15.10.gem
@@ -90,7 +90,7 @@ Gem dependency for %{name}
 %package gem-faraday
 Summary: A faraday Gem for use with %{name}
 Version: 0.17.4
-Release: 1
+Release: 2
 License: MIT
 URL: https://lostisland.github.io/faraday
 Source12: faraday-0.17.4.gem
@@ -104,7 +104,7 @@ Gem dependency for %{name}
 %package gem-faraday_middleware
 Summary: A faraday_middleware Gem for use with %{name}
 Version: 0.14.0
-Release: 1
+Release: 2
 License: MIT
 URL: https://github.com/lostisland/faraday_middleware
 Source13: faraday_middleware-0.14.0.gem
@@ -118,7 +118,7 @@ Gem dependency for %{name}
 %package gem-fast_gettext
 Summary: A fast_gettext Gem for use with %{name}
 Version: 1.1.2
-Release: 4
+Release: 5
 License: MIT or Ruby
 URL: http://github.com/grosser/fast_gettext
 Source14: fast_gettext-1.1.2.gem
@@ -132,7 +132,7 @@ Gem dependency for %{name}
 %package gem-gettext
 Summary: A gettext Gem for use with %{name}
 Version: 3.2.9
-Release: 4
+Release: 5
 License: Ruby or LGPLv3+
 URL: http://ruby-gettext.github.com/
 Source15: gettext-3.2.9.gem
@@ -146,7 +146,7 @@ Gem dependency for %{name}
 %package gem-gettext-setup
 Summary: A gettext-setup Gem for use with %{name}
 Version: 0.34
-Release: 1
+Release: 2
 License: Apache-2.0
 URL: https://github.com/puppetlabs/gettext-setup-gem
 Source16: gettext-setup-0.34.gem
@@ -160,7 +160,7 @@ Gem dependency for %{name}
 %package gem-locale
 Summary: A locale Gem for use with %{name}
 Version: 2.1.3
-Release: 1
+Release: 2
 License: Ruby or LGPLv3+
 URL: https://github.com/ruby-gettext/locale
 Source17: locale-2.1.3.gem
@@ -174,7 +174,7 @@ Gem dependency for %{name}
 %package gem-log4r
 Summary: A log4r Gem for use with %{name}
 Version: 1.1.10
-Release: 5
+Release: 6
 License: MIT
 URL: http://log4r.rubyforge.org
 Source18: log4r-1.1.10.gem
@@ -188,7 +188,7 @@ Gem dependency for %{name}
 %package gem-minitar
 Summary: A minitar Gem for use with %{name}
 Version: 0.9
-Release: 1
+Release: 2
 License: Ruby or BSD-2-Clause
 URL: https://github.com/halostatue/minitar/
 Source19: minitar-0.9.gem
@@ -202,7 +202,7 @@ Gem dependency for %{name}
 %package gem-multi_json
 Summary: A multi_json Gem for use with %{name}
 Version: 1.15.0
-Release: 1
+Release: 2
 License: MIT
 URL: https://github.com/intridea/multi_json
 Source20: multi_json-1.15.0.gem
@@ -216,7 +216,7 @@ Gem dependency for %{name}
 %package gem-multipart-post
 Summary: A multipart-post Gem for use with %{name}
 Version: 2.1.1
-Release: 3
+Release: 4
 License: MIT
 URL: https://github.com/nicksieger/multipart-post
 Source21: multipart-post-2.1.1.gem
@@ -230,7 +230,7 @@ Gem dependency for %{name}
 %package gem-puppet_forge
 Summary: A puppet_forge Gem for use with %{name}
 Version: 2.3.4
-Release: 1
+Release: 2
 License: Apache-2.0
 URL: https://github.com/puppetlabs/forge-ruby
 Source22: puppet_forge-2.3.4.gem
@@ -243,13 +243,13 @@ Gem dependency for %{name}
 
 %package gem-r10k
 Summary: A r10k Gem for use with %{name}
-Version: 3.11.0
+Version: 3.12.1
 Release: 1
 License: Apache-2.0
 URL: https://github.com/puppetlabs/r10k
-Source23: r10k-3.11.0.gem
+Source23: r10k-3.12.1.gem
 BuildArch: noarch
-Provides: rubygem(%{pkgname}-r10k) = 3.11.0
+Provides: rubygem(%{pkgname}-r10k) = 3.12.1
 
 %description gem-r10k
 
@@ -258,7 +258,7 @@ Gem dependency for %{name}
 %package gem-semantic_puppet
 Summary: A semantic_puppet Gem for use with %{name}
 Version: 1.0.4
-Release: 1
+Release: 2
 License: Apache-2.0
 URL: https://github.com/puppetlabs/semantic_puppet
 Source24: semantic_puppet-1.0.4.gem
@@ -272,7 +272,7 @@ Gem dependency for %{name}
 %package gem-text
 Summary: A text Gem for use with %{name}
 Version: 1.3.1
-Release: 4
+Release: 5
 License: MIT
 URL: http://github.com/threedaymonk/text
 Source25: text-1.3.1.gem
@@ -286,7 +286,7 @@ Gem dependency for %{name}
 %package gem-colored2
 Summary: A colored2 Gem for use with %{name}
 Version: 3.1.2
-Release: 1
+Release: 2
 License: MIT
 URL: http://github.com/kigster/colored2
 Source26: colored2-3.1.2.gem
@@ -300,7 +300,7 @@ Gem dependency for %{name}
 %package gem-jwt
 Summary: A jwt Gem for use with %{name}
 Version: 2.2.3
-Release: 1
+Release: 2
 License: MIT
 URL: https://github.com/jwt/ruby-jwt
 Source27: jwt-2.2.3.gem
@@ -442,11 +442,11 @@ EOM
 
 %files gem-r10k
 %defattr(0644, root, root, 0755)
-%{geminstdir}/gems/r10k-3.11.0
-%attr(0755,-,-) %{geminstdir}/gems/r10k-3.11.0/bin/r10k
+%{geminstdir}/gems/r10k-3.12.1
+%attr(0755,-,-) %{geminstdir}/gems/r10k-3.12.1/bin/r10k
 %exclude %{geminstdir}/bin
-%exclude %{geminstdir}/cache/r10k-3.11.0.gem
-%{geminstdir}/specifications/r10k-3.11.0.gemspec
+%exclude %{geminstdir}/cache/r10k-3.12.1.gem
+%{geminstdir}/specifications/r10k-3.12.1.gemspec
 
 %files gem-semantic_puppet
 %defattr(0644, root, root, 0755)
@@ -478,6 +478,13 @@ EOM
 
 
 %changelog
+* Tue Oct 12 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-1
+- Updated r10k gem to 3.12.1
+
+* Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-1
+- Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment
+- Add generated .spec file to git, so `pkg:single` can build it
+
 * Wed Sep 01 2021 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.11.0-1
 - Updated source versions to use r10k 3.11.0 and its corresponding gems
 - Update Rakefile task pkg:rpm to add macro brp_mangle_shebangs so the shebangs
