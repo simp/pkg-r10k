@@ -8,7 +8,8 @@ spec/fixtures/
 /.bundle
 /vendor
 Gemfile.lock
-build/simp-vendored-r10k.spec
+# Tracking in git so pkg:single can build it (SIMP-10575)
+# build/simp-vendored-r10k.spec
 src/*
 /.vagrant
 /log
