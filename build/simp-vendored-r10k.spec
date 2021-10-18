@@ -76,7 +76,7 @@ postrun scripts suited to a SIMP environment.
 %package gem-cri
 Summary: A cri Gem for use with %{name}
 Version: 2.15.10
-Release: 2
+Release: 1
 License: MIT
 URL: https://github.com/ddfreyne/cri
 Source11: cri-2.15.10.gem
@@ -90,7 +90,7 @@ Gem dependency for %{name}
 %package gem-faraday
 Summary: A faraday Gem for use with %{name}
 Version: 0.17.4
-Release: 2
+Release: 1
 License: MIT
 URL: https://lostisland.github.io/faraday
 Source12: faraday-0.17.4.gem
@@ -104,7 +104,7 @@ Gem dependency for %{name}
 %package gem-faraday_middleware
 Summary: A faraday_middleware Gem for use with %{name}
 Version: 0.14.0
-Release: 2
+Release: 1
 License: MIT
 URL: https://github.com/lostisland/faraday_middleware
 Source13: faraday_middleware-0.14.0.gem
@@ -118,7 +118,7 @@ Gem dependency for %{name}
 %package gem-fast_gettext
 Summary: A fast_gettext Gem for use with %{name}
 Version: 1.1.2
-Release: 5
+Release: 4
 License: MIT or Ruby
 URL: http://github.com/grosser/fast_gettext
 Source14: fast_gettext-1.1.2.gem
@@ -132,7 +132,7 @@ Gem dependency for %{name}
 %package gem-gettext
 Summary: A gettext Gem for use with %{name}
 Version: 3.2.9
-Release: 5
+Release: 4
 License: Ruby or LGPLv3+
 URL: http://ruby-gettext.github.com/
 Source15: gettext-3.2.9.gem
@@ -146,7 +146,7 @@ Gem dependency for %{name}
 %package gem-gettext-setup
 Summary: A gettext-setup Gem for use with %{name}
 Version: 0.34
-Release: 2
+Release: 1
 License: Apache-2.0
 URL: https://github.com/puppetlabs/gettext-setup-gem
 Source16: gettext-setup-0.34.gem
@@ -160,7 +160,7 @@ Gem dependency for %{name}
 %package gem-locale
 Summary: A locale Gem for use with %{name}
 Version: 2.1.3
-Release: 2
+Release: 1
 License: Ruby or LGPLv3+
 URL: https://github.com/ruby-gettext/locale
 Source17: locale-2.1.3.gem
@@ -174,7 +174,7 @@ Gem dependency for %{name}
 %package gem-log4r
 Summary: A log4r Gem for use with %{name}
 Version: 1.1.10
-Release: 6
+Release: 5
 License: MIT
 URL: http://log4r.rubyforge.org
 Source18: log4r-1.1.10.gem
@@ -188,7 +188,7 @@ Gem dependency for %{name}
 %package gem-minitar
 Summary: A minitar Gem for use with %{name}
 Version: 0.9
-Release: 2
+Release: 1
 License: Ruby or BSD-2-Clause
 URL: https://github.com/halostatue/minitar/
 Source19: minitar-0.9.gem
@@ -202,7 +202,7 @@ Gem dependency for %{name}
 %package gem-multi_json
 Summary: A multi_json Gem for use with %{name}
 Version: 1.15.0
-Release: 2
+Release: 1
 License: MIT
 URL: https://github.com/intridea/multi_json
 Source20: multi_json-1.15.0.gem
@@ -216,7 +216,7 @@ Gem dependency for %{name}
 %package gem-multipart-post
 Summary: A multipart-post Gem for use with %{name}
 Version: 2.1.1
-Release: 4
+Release: 3
 License: MIT
 URL: https://github.com/nicksieger/multipart-post
 Source21: multipart-post-2.1.1.gem
@@ -230,7 +230,7 @@ Gem dependency for %{name}
 %package gem-puppet_forge
 Summary: A puppet_forge Gem for use with %{name}
 Version: 2.3.4
-Release: 2
+Release: 1
 License: Apache-2.0
 URL: https://github.com/puppetlabs/forge-ruby
 Source22: puppet_forge-2.3.4.gem
@@ -258,7 +258,7 @@ Gem dependency for %{name}
 %package gem-semantic_puppet
 Summary: A semantic_puppet Gem for use with %{name}
 Version: 1.0.4
-Release: 2
+Release: 1
 License: Apache-2.0
 URL: https://github.com/puppetlabs/semantic_puppet
 Source24: semantic_puppet-1.0.4.gem
@@ -272,7 +272,7 @@ Gem dependency for %{name}
 %package gem-text
 Summary: A text Gem for use with %{name}
 Version: 1.3.1
-Release: 5
+Release: 4
 License: MIT
 URL: http://github.com/threedaymonk/text
 Source25: text-1.3.1.gem
@@ -286,7 +286,7 @@ Gem dependency for %{name}
 %package gem-colored2
 Summary: A colored2 Gem for use with %{name}
 Version: 3.1.2
-Release: 2
+Release: 1
 License: MIT
 URL: http://github.com/kigster/colored2
 Source26: colored2-3.1.2.gem
@@ -300,7 +300,7 @@ Gem dependency for %{name}
 %package gem-jwt
 Summary: A jwt Gem for use with %{name}
 Version: 2.2.3
-Release: 2
+Release: 1
 License: MIT
 URL: https://github.com/jwt/ruby-jwt
 Source27: jwt-2.2.3.gem
@@ -329,7 +329,7 @@ mkdir -p %{buildroot}/%{_var}/simp/cache/r10k
 
 %{lua:
   for i=11,27 do
-    print("gem install --local --no-user-install --install-dir ")
+    print("gem install --local --env-shebang --no-user-install --install-dir ")
     print(rpm.expand("%{buildroot}"))
     print("/")
     print(rpm.expand("%{geminstdir}"))
@@ -389,6 +389,7 @@ EOM
 %{geminstdir}/gems/gettext-3.2.9
 %exclude %{geminstdir}/bin
 %exclude %{geminstdir}/cache/gettext-3.2.9.gem
+%exclude %{geminstdir}/gems/gettext-3.2.9/samples
 %{geminstdir}/specifications/gettext-3.2.9.gemspec
 
 %files gem-gettext-setup
@@ -479,7 +480,11 @@ EOM
 
 %changelog
 * Tue Oct 12 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-1
-- Updated r10k gem to 3.12.1
+- Changed:
+  - Updated r10k gem to 3.12.1
+  - gems are installed into the RPMs buildroot/geminstdir with `--env-shebang`
+- Added:
+  - New `excludes:` key to gems in `build/sources.yaml`
 
 * Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-1
 - Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment

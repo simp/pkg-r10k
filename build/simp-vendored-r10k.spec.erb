@@ -95,7 +95,7 @@ mkdir -p %{buildroot}/%{_var}/simp/cache/r10k
 
 %{lua:
   for i=11,<%= source - 1 %> do
-    print("gem install --local --no-user-install --install-dir ")
+    print("gem install --local --env-shebang --no-user-install --install-dir ")
     print(rpm.expand("%{buildroot}"))
     print("/")
     print(rpm.expand("%{geminstdir}"))
@@ -131,6 +131,9 @@ EOM
 <% end -%>
 %exclude %{geminstdir}/bin
 %exclude %{geminstdir}/cache/<%= dep %>-<%= data['version'] %>.gem
+<% (data['excludes'] || []).each do |exclude_path| -%>
+%exclude %{geminstdir}/gems/<%= dep %>-<%= data['version'] %>/<%= exclude_path %>
+<% end -%>
 %{geminstdir}/specifications/<%= dep %>-<%= data['version'] %>.gemspec
 
 <% end -%>
