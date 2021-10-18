@@ -121,6 +121,11 @@ pup_6_X:
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default,default]'
+
+pup_6_X-upgrade:
+  <<: *pup_6_X
+  <<: *acceptance_base
+  script:
     - 'bundle exec rake beaker:suites[upgrade,default]'
 
 pup_7_X:
@@ -128,6 +133,11 @@ pup_7_X:
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default,default]'
+
+pup_7_X-upgrade:
+  <<: *pup_7_X
+  <<: *acceptance_base
+  script:
     - 'bundle exec rake beaker:suites[upgrade,default]'
 
 pup6-fips:
