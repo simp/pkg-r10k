@@ -34,7 +34,7 @@ describe 'upgrade simp vendored r10k' do
 
     let(:dist_dir) { File.join(File.dirname(__FILE__), '../../../../dist/') }
 
-    let(:expected_version) {  %x{rpm -q --qf '%{version}\n' "#{dist_dir}/simp-vendored-r10k-gem-r10k*.rpm"}.strip }
+    let(:expected_version) {  %x{rpm -q --qf '%{version}\n' -p "#{dist_dir}/simp-vendored-r10k-gem-r10k*.rpm"}.strip }
 
     osmajver = fact_on(host, 'operatingsystemmajrelease')
 
