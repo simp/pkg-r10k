@@ -4,7 +4,7 @@
 %global simp_bindir /usr/share/simp/bin
 %global geminstdir %{gemdir}/%{pkgname}
 
-%global r10k_version 3.11.0
+%global r10k_version 3.12.1
 
 # gem2ruby's method of installing gems into mocked build roots will blow up
 # unless this line is present:
@@ -39,7 +39,7 @@ Requires: rubygem(%{pkgname}-minitar) >= 0.9
 Requires: rubygem(%{pkgname}-multi_json) >= 1.15.0
 Requires: rubygem(%{pkgname}-multipart-post) >= 2.1.1
 Requires: rubygem(%{pkgname}-puppet_forge) >= 2.3.4
-Requires: rubygem(%{pkgname}-r10k) >= 3.11.0
+Requires: rubygem(%{pkgname}-r10k) >= 3.12.1
 Requires: rubygem(%{pkgname}-semantic_puppet) >= 1.0.4
 Requires: rubygem(%{pkgname}-text) >= 1.3.1
 Requires: rubygem(%{pkgname}-colored2) >= 3.1.2
@@ -243,13 +243,13 @@ Gem dependency for %{name}
 
 %package gem-r10k
 Summary: A r10k Gem for use with %{name}
-Version: 3.11.0
+Version: 3.12.1
 Release: 1
 License: Apache-2.0
 URL: https://github.com/puppetlabs/r10k
-Source23: r10k-3.11.0.gem
+Source23: r10k-3.12.1.gem
 BuildArch: noarch
-Provides: rubygem(%{pkgname}-r10k) = 3.11.0
+Provides: rubygem(%{pkgname}-r10k) = 3.12.1
 
 %description gem-r10k
 
@@ -329,7 +329,7 @@ mkdir -p %{buildroot}/%{_var}/simp/cache/r10k
 
 %{lua:
   for i=11,27 do
-    print("gem install --local --no-user-install --install-dir ")
+    print("gem install --local --env-shebang --no-user-install --install-dir ")
     print(rpm.expand("%{buildroot}"))
     print("/")
     print(rpm.expand("%{geminstdir}"))
@@ -389,6 +389,7 @@ EOM
 %{geminstdir}/gems/gettext-3.2.9
 %exclude %{geminstdir}/bin
 %exclude %{geminstdir}/cache/gettext-3.2.9.gem
+%exclude %{geminstdir}/gems/gettext-3.2.9/samples
 %{geminstdir}/specifications/gettext-3.2.9.gemspec
 
 %files gem-gettext-setup
@@ -442,11 +443,11 @@ EOM
 
 %files gem-r10k
 %defattr(0644, root, root, 0755)
-%{geminstdir}/gems/r10k-3.11.0
-%attr(0755,-,-) %{geminstdir}/gems/r10k-3.11.0/bin/r10k
+%{geminstdir}/gems/r10k-3.12.1
+%attr(0755,-,-) %{geminstdir}/gems/r10k-3.12.1/bin/r10k
 %exclude %{geminstdir}/bin
-%exclude %{geminstdir}/cache/r10k-3.11.0.gem
-%{geminstdir}/specifications/r10k-3.11.0.gemspec
+%exclude %{geminstdir}/cache/r10k-3.12.1.gem
+%{geminstdir}/specifications/r10k-3.12.1.gemspec
 
 %files gem-semantic_puppet
 %defattr(0644, root, root, 0755)
@@ -478,6 +479,17 @@ EOM
 
 
 %changelog
+* Tue Oct 12 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-1
+- Changed:
+  - Updated r10k gem to 3.12.1
+  - gems are installed into the RPMs buildroot/geminstdir with `--env-shebang`
+- Added:
+  - New `excludes:` key to gems in `build/sources.yaml`
+
+* Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-1
+- Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment
+- Add generated .spec file to git, so `pkg:single` can build it
+
 * Wed Sep 01 2021 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 3.11.0-1
 - Updated source versions to use r10k 3.11.0 and its corresponding gems
 - Update Rakefile task pkg:rpm to add macro brp_mangle_shebangs so the shebangs

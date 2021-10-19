@@ -1,5 +1,5 @@
 ---
-version: 3.11.0
+version: 3.12.1
 url: https://github.com/simp/pkg-r10k
 gems:
   cri:
@@ -32,6 +32,8 @@ gems:
     url: http://ruby-gettext.github.com/
     repo: https://github.com/ruby-gettext/gettext
     release: 4
+    excludes:
+      - 'samples'
   gettext-setup:
     version: '0.34'
     license: Apache-2.0
@@ -75,7 +77,7 @@ gems:
     repo: https://github.com/puppetlabs/forge-ruby
     release: 1
   r10k:
-    version: 3.11.0
+    version: 3.12.1
     license: Apache-2.0
     url: https://github.com/puppetlabs/r10k
     repo: https://github.com/puppetlabs/r10k
