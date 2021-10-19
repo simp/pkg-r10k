@@ -48,7 +48,7 @@ variables:
 
 # To avoid running a prohibitive number of tests every commit,
 # don't set this env var in your gitlab instance
-.only_with_SIMP_FULL_MATRIX: &only_with_SIMP_FULL_MATRIX
+.with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3: &with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3
   only:
     variables:
       - $SIMP_FULL_MATRIX == "yes"
@@ -140,26 +140,26 @@ pup_7_X-upgrade:
   script:
     - 'bundle exec rake beaker:suites[upgrade,default]'
 
-pup6-fips:
+pup6.x-fips:
   <<: *pup_6_X
   <<: *acceptance_base
-  <<: *only_with_SIMP_FULL_MATRIX
+  <<: *with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3
   script:
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,default]'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,default]'
 
-pup6-oel:
+pup6.x-oel:
   <<: *pup_6_X
   <<: *acceptance_base
-  <<: *only_with_SIMP_FULL_MATRIX
+  <<: *with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3
   script:
     - 'bundle exec rake beaker:suites[default,oel]'
     - 'bundle exec rake beaker:suites[upgrade,oel]'
 
-pup6-oel-fips:
+pup6.x-oel-fips:
   <<: *pup_6_X
   <<: *acceptance_base
-  <<: *only_with_SIMP_FULL_MATRIX
+  <<: *with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3
   script:
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,oel]'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,oel]'
