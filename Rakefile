@@ -222,8 +222,9 @@ namespace :pkg do
       tar_cmd << "--exclude=simp-vendored-r10k-#{version}/.bundle"
       tar_cmd << "--exclude=simp-vendored-r10k-#{version}/spec/fixtures/modules"
       tar_cmd << '-czf'
-      tar_cmd << "../RPMBUILD/SOURCES/simp-vendored-r10k-#{version}-#{release}.tar.gz"
+      tar_cmd << "../RPMBUILD/SOURCES/simp-vendored-r10k-#{version}-#{release}#{%x[rpm -q --eval '%{?dist}'].strip}.tar.gz"
       tar_cmd << "simp-vendored-r10k-#{version}"
+      STDERR.puts "== #{tar_cmd.join(' ')}"
       sh tar_cmd.join(' ')
     end
     FileUtils.rm_rf File.join('dist','tmp')
@@ -232,7 +233,8 @@ namespace :pkg do
     src_cmd  = []
     src_cmd << 'rpmbuild'
     src_cmd << "-D '_topdir #{buildroot}'"
-    src_cmd << '-v -bs build/simp-vendored-r10k.spec'
+    src_cmd << '-v -v -v -bs build/simp-vendored-r10k.spec'
+    STDERR.puts "== #{src_cmd.join(' ')}"
     sh src_cmd.join(' ')
 
     rpm_cmd  = []
@@ -241,8 +243,9 @@ namespace :pkg do
     # needed on EL8 to disable the aggressive brp_mangle_shebangs script
     # that results in invalid script shebangs; does nothing in EL7
     rpm_cmd << "-D '__brp_mangle_shebangs /usr/bin/true'"
-    rpm_cmd << '-v -ba build/simp-vendored-r10k.spec'
+    rpm_cmd << '-v -v -v -ba build/simp-vendored-r10k.spec'
 
+    STDERR.puts "== #{rpm_cmd.join(' ')}"
     ::Bundler.send(CLEAN_ENV_METHOD) do
       sh rpm_cmd.join(' ')
     end
