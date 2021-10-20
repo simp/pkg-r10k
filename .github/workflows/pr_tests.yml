@@ -1,0 +1,52 @@
+# Run pkg-r10k syntax and RELENG checks on Pull Requests
+# ------------------------------------------------------------------------------
+
+name: PR Tests
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+env:
+  PUPPET_VERSION: '~> 6'
+
+jobs:
+  yaml-syntax:
+    name: 'YAML syntax'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install Ruby"
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+      - run: |
+          bundle exec ruby -ryaml -e "puts YAML.load_file('build/sources.yaml')['version']"
+
+  releng-checks:
+    name: 'RELENG checks'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install Ruby"
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+      - run: "bundle exec rake pkg:create_tag_changelog"
+
+  rpmbuild:
+    name: 'Build RPM'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install Ruby ${{matrix.puppet.ruby_version}}"
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+      - run: |
+          command -v rpmbuild || if command -v apt-get; then apt-get update; apt-get install -y rpm; fi ||:
+          command -v rpmbuild || { >&2 echo "FATAL: Cannot find executable: ''rpmbuild''";  exit 1 ;}
+          bundle exec rake pkg:rpm

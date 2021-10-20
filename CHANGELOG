@@ -4,8 +4,9 @@
   - gems are installed into the RPMs buildroot/geminstdir with `--env-shebang`
 - Added:
   - New `excludes:` key to gems in `build/sources.yaml`
+  - RPMs include `dist` tags
 - Removed:
-  - gettext RPM does not include gem's samples/ directory
+  - gettext RPM does not include gem's `samples/` directory
 
 * Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-1
 - Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment

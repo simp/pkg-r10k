@@ -132,12 +132,14 @@ pup_7_X:
   <<: *pup_7_X
   <<: *acceptance_base
   script:
+    - 'bundle exec rake clean'
     - 'bundle exec rake beaker:suites[default,default]'
 
 pup_7_X-upgrade:
   <<: *pup_7_X
   <<: *acceptance_base
   script:
+    - 'bundle exec rake clean'
     - 'bundle exec rake beaker:suites[upgrade,default]'
 
 pup6.x-fips:
@@ -145,6 +147,7 @@ pup6.x-fips:
   <<: *acceptance_base
   <<: *with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3
   script:
+    - 'bundle exec rake clean'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,default]'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,default]'
 
@@ -153,6 +156,7 @@ pup6.x-oel:
   <<: *acceptance_base
   <<: *with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3
   script:
+    - 'bundle exec rake clean'
     - 'bundle exec rake beaker:suites[default,oel]'
     - 'bundle exec rake beaker:suites[upgrade,oel]'
 
@@ -161,5 +165,6 @@ pup6.x-oel-fips:
   <<: *acceptance_base
   <<: *with_SIMP_ACCEPTANCE_MATRIX_LEVEL_3
   script:
+    - 'bundle exec rake clean'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,oel]'
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[upgrade,oel]'
