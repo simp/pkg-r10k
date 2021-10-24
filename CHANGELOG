@@ -1,3 +1,7 @@
+* Sun Oct 24 2021 Trevor Vaughan <tvaughan@onyxpoint.com> - 3.12.1-2
+- Changed:
+  - Release tag bump to account for ISO-related fixes
+
 * Tue Oct 12 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-1
 - Changed:
   - Updated r10k gem to 3.12.1
