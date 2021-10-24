@@ -13,7 +13,7 @@
 Summary: r10k with puppet-safe gem installation
 Name: simp-vendored-r10k
 Version: %{r10k_version}
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Development/Languages
 License: Apache-2.0
 URL: https://github.com/simp/pkg-r10k
@@ -63,7 +63,7 @@ in your path by default.
 %package doc
 Summary: Documentation for the SIMP r10k installation
 Version: %{r10k_version}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Apache-2.0
 URL: https://github.com/simp/pkg-r10k
 BuildArch: noarch
@@ -244,7 +244,7 @@ Gem dependency for %{name}
 %package gem-r10k
 Summary: A r10k Gem for use with %{name}
 Version: 3.12.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Apache-2.0
 URL: https://github.com/puppetlabs/r10k
 Source23: r10k-3.12.1.gem
@@ -479,14 +479,19 @@ EOM
 
 
 %changelog
+* Sun Oct 24 2021 Trevor Vaughan <tvaughan@onyxpoint.com> - 3.12.1-2
+- Changed:
+  - Release tag bump to account for ISO-related fixes
+
 * Tue Oct 12 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-1
 - Changed:
   - Updated r10k gem to 3.12.1
   - gems are installed into the RPMs buildroot/geminstdir with `--env-shebang`
 - Added:
   - New `excludes:` key to gems in `build/sources.yaml`
+  - RPMs include `dist` tags
 - Removed:
-  - gettext RPM does not include gem's samples/ directory
+  - gettext RPM does not include gem's `samples/` directory
 
 * Thu Oct 07 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.11.0-1
 - Fixed `rake pkg:gem` and `rake pkg:rpm` to ignore local gem environment
