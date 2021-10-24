@@ -251,6 +251,10 @@ namespace :pkg do
     end
 
     FileUtils.cp Dir.glob('dist/RPMBUILD/RPMS/noarch/*.rpm'), 'dist'
+
+    # Needed for the ISO build
+    require 'simp/rpm'
+    Simp::RPM::create_rpm_build_metadata(File.expand_path('.'))
   end
 
   Rake::Task[:rpm].prerequisites.unshift(:rpmspec)
