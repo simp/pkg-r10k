@@ -70,6 +70,12 @@ URL: <%= data['url'] %>
 Source<%= source %>: <%= dep %>-<%= data['version'] %>.gem
 BuildArch: noarch
 Provides: rubygem(%{pkgname}-<%= dep %>) = <%= data['version'] %>
+<% ['Provides', 'Requires', 'Conflicts', 'Obsoletes'].each do |dep_type|
+  (data[dep_type.downcase] || []).each do |item|
+-%>
+<%= dep_type %>: <%= item %>
+<% end
+end -%>
 
 %description gem-<%= dep %>
 

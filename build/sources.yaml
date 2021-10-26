@@ -81,7 +81,7 @@ gems:
     license: Apache-2.0
     url: https://github.com/puppetlabs/r10k
     repo: https://github.com/puppetlabs/r10k
-    release: 2
+    release: 3
   semantic_puppet:
     version: 1.0.4
     license: Apache-2.0
@@ -95,11 +95,13 @@ gems:
     repo: http://github.com/threedaymonk/text
     release: 4
   colored2:
-    release: 1
+    release: 2
     version: 3.1.2
     license: MIT
     url: http://github.com/kigster/colored2
     repo: https://github.com/kigster/colored2
+    obsoletes:
+      - 'simp-vendored-r10k-gem-colored < 2.0'
   jwt:
     release: 1
     version: 2.2.3
