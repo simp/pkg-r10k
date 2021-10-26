@@ -13,7 +13,7 @@
 Summary: r10k with puppet-safe gem installation
 Name: simp-vendored-r10k
 Version: %{r10k_version}
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group: Development/Languages
 License: Apache-2.0
 URL: https://github.com/simp/pkg-r10k
@@ -63,7 +63,7 @@ in your path by default.
 %package doc
 Summary: Documentation for the SIMP r10k installation
 Version: %{r10k_version}
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Apache-2.0
 URL: https://github.com/simp/pkg-r10k
 BuildArch: noarch
@@ -244,7 +244,7 @@ Gem dependency for %{name}
 %package gem-r10k
 Summary: A r10k Gem for use with %{name}
 Version: 3.12.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Apache-2.0
 URL: https://github.com/puppetlabs/r10k
 Source23: r10k-3.12.1.gem
@@ -286,12 +286,13 @@ Gem dependency for %{name}
 %package gem-colored2
 Summary: A colored2 Gem for use with %{name}
 Version: 3.1.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 URL: http://github.com/kigster/colored2
 Source26: colored2-3.1.2.gem
 BuildArch: noarch
 Provides: rubygem(%{pkgname}-colored2) = 3.1.2
+Obsoletes: simp-vendored-r10k-gem-colored < 2.0
 
 %description gem-colored2
 
