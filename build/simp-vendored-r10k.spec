@@ -480,6 +480,18 @@ EOM
 
 
 %changelog
+* Wed Feb 09 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-4
+- Fixed:
+  - SRPMs are now copied into `dist/` during builds
+
+
+* Mon Oct 25 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-3
+- Changed:
+  - RPM for `colored2` gem now obsoletes RPMs for older `colored` gem
+- Added:
+  - New `sources.yaml` keys for arbitrary `obsoletes`, `requires`,
+    `conflicts`, and `provides`
+
 * Sun Oct 24 2021 Trevor Vaughan <tvaughan@onyxpoint.com> - 3.12.1-2
 - Changed:
   - Release tag bump to account for ISO-related fixes
