@@ -484,7 +484,6 @@ EOM
 - Fixed:
   - SRPMs are now copied into `dist/` during builds
 
-
 * Mon Oct 25 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-3
 - Changed:
   - RPM for `colored2` gem now obsoletes RPMs for older `colored` gem

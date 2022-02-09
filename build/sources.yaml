@@ -81,7 +81,7 @@ gems:
     license: Apache-2.0
     url: https://github.com/puppetlabs/r10k
     repo: https://github.com/puppetlabs/r10k
-    release: 3
+    release: 4
   semantic_puppet:
     version: 1.0.4
     license: Apache-2.0
