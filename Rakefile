@@ -233,7 +233,7 @@ namespace :pkg do
     src_cmd  = []
     src_cmd << 'rpmbuild'
     src_cmd << "-D '_topdir #{buildroot}'"
-    src_cmd << '-v -v -v -bs build/simp-vendored-r10k.spec'
+    src_cmd << '-v -bs build/simp-vendored-r10k.spec'
     STDERR.puts "== #{src_cmd.join(' ')}"
     sh src_cmd.join(' ')
 
@@ -243,14 +243,14 @@ namespace :pkg do
     # needed on EL8 to disable the aggressive brp_mangle_shebangs script
     # that results in invalid script shebangs; does nothing in EL7
     rpm_cmd << "-D '__brp_mangle_shebangs /usr/bin/true'"
-    rpm_cmd << '-v -v -v -ba build/simp-vendored-r10k.spec'
+    rpm_cmd << '-v -ba build/simp-vendored-r10k.spec'
 
     STDERR.puts "== #{rpm_cmd.join(' ')}"
     ::Bundler.send(CLEAN_ENV_METHOD) do
       sh rpm_cmd.join(' ')
     end
 
-    FileUtils.cp Dir.glob('dist/RPMBUILD/RPMS/noarch/*.rpm'), 'dist'
+    FileUtils.cp Dir.glob('dist/RPMBUILD/{SRPMS/*.rpm,RPMS/*/*.rpm}'), 'dist'
 
     # Needed for the ISO build
     require 'simp/rpm'
