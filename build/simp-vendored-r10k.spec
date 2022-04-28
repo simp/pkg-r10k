@@ -4,7 +4,7 @@
 %global simp_bindir /usr/share/simp/bin
 %global geminstdir %{gemdir}/%{pkgname}
 
-%global r10k_version 3.12.1
+%global r10k_version 3.14.2
 
 # gem2ruby's method of installing gems into mocked build roots will blow up
 # unless this line is present:
@@ -13,7 +13,7 @@
 Summary: r10k with puppet-safe gem installation
 Name: simp-vendored-r10k
 Version: %{r10k_version}
-Release: 3%{?dist}
+Release: 1%{?dist}
 Group: Development/Languages
 License: Apache-2.0
 URL: https://github.com/simp/pkg-r10k
@@ -28,7 +28,7 @@ Requires: puppet-agent
 Requires: %{name}-doc
 Requires: rubygem(%{pkgname}-r10k) >= %{r10k_version}
 Requires: rubygem(%{pkgname}-cri) >= 2.15.10
-Requires: rubygem(%{pkgname}-faraday) >= 0.17.4
+Requires: rubygem(%{pkgname}-faraday) >= 0.17.5
 Requires: rubygem(%{pkgname}-faraday_middleware) >= 0.14.0
 Requires: rubygem(%{pkgname}-fast_gettext) >= 1.1.2
 Requires: rubygem(%{pkgname}-gettext) >= 3.2.9
@@ -39,7 +39,7 @@ Requires: rubygem(%{pkgname}-minitar) >= 0.9
 Requires: rubygem(%{pkgname}-multi_json) >= 1.15.0
 Requires: rubygem(%{pkgname}-multipart-post) >= 2.1.1
 Requires: rubygem(%{pkgname}-puppet_forge) >= 2.3.4
-Requires: rubygem(%{pkgname}-r10k) >= 3.12.1
+Requires: rubygem(%{pkgname}-r10k) >= 3.14.2
 Requires: rubygem(%{pkgname}-semantic_puppet) >= 1.0.4
 Requires: rubygem(%{pkgname}-text) >= 1.3.1
 Requires: rubygem(%{pkgname}-colored2) >= 3.1.2
@@ -63,7 +63,7 @@ in your path by default.
 %package doc
 Summary: Documentation for the SIMP r10k installation
 Version: %{r10k_version}
-Release: 3%{?dist}
+Release: 1%{?dist}
 License: Apache-2.0
 URL: https://github.com/simp/pkg-r10k
 BuildArch: noarch
@@ -89,13 +89,13 @@ Gem dependency for %{name}
 
 %package gem-faraday
 Summary: A faraday Gem for use with %{name}
-Version: 0.17.4
+Version: 0.17.5
 Release: 1%{?dist}
 License: MIT
 URL: https://lostisland.github.io/faraday
-Source12: faraday-0.17.4.gem
+Source12: faraday-0.17.5.gem
 BuildArch: noarch
-Provides: rubygem(%{pkgname}-faraday) = 0.17.4
+Provides: rubygem(%{pkgname}-faraday) = 0.17.5
 
 %description gem-faraday
 
@@ -243,13 +243,13 @@ Gem dependency for %{name}
 
 %package gem-r10k
 Summary: A r10k Gem for use with %{name}
-Version: 3.12.1
-Release: 3%{?dist}
+Version: 3.14.2
+Release: 1%{?dist}
 License: Apache-2.0
 URL: https://github.com/puppetlabs/r10k
-Source23: r10k-3.12.1.gem
+Source23: r10k-3.14.2.gem
 BuildArch: noarch
-Provides: rubygem(%{pkgname}-r10k) = 3.12.1
+Provides: rubygem(%{pkgname}-r10k) = 3.14.2
 
 %description gem-r10k
 
@@ -366,10 +366,10 @@ EOM
 
 %files gem-faraday
 %defattr(0644, root, root, 0755)
-%{geminstdir}/gems/faraday-0.17.4
+%{geminstdir}/gems/faraday-0.17.5
 %exclude %{geminstdir}/bin
-%exclude %{geminstdir}/cache/faraday-0.17.4.gem
-%{geminstdir}/specifications/faraday-0.17.4.gemspec
+%exclude %{geminstdir}/cache/faraday-0.17.5.gem
+%{geminstdir}/specifications/faraday-0.17.5.gemspec
 
 %files gem-faraday_middleware
 %defattr(0644, root, root, 0755)
@@ -444,11 +444,11 @@ EOM
 
 %files gem-r10k
 %defattr(0644, root, root, 0755)
-%{geminstdir}/gems/r10k-3.12.1
-%attr(0755,-,-) %{geminstdir}/gems/r10k-3.12.1/bin/r10k
+%{geminstdir}/gems/r10k-3.14.2
+%attr(0755,-,-) %{geminstdir}/gems/r10k-3.14.2/bin/r10k
 %exclude %{geminstdir}/bin
-%exclude %{geminstdir}/cache/r10k-3.12.1.gem
-%{geminstdir}/specifications/r10k-3.12.1.gemspec
+%exclude %{geminstdir}/cache/r10k-3.14.2.gem
+%{geminstdir}/specifications/r10k-3.14.2.gemspec
 
 %files gem-semantic_puppet
 %defattr(0644, root, root, 0755)
@@ -480,6 +480,37 @@ EOM
 
 
 %changelog
+* Wed Apr 25 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.14.2-1
+- Changed:
+  - Updated `r10k` gem to 3.14.2
+  - Updated dependency `faraday` gem to 0.17.5
+  - See https://github.com/puppetlabs/r10k/compare/3.12.1...3.14.2
+    for full diff of r10k changes
+- Added:
+  - New r10k gem features:
+    - New config: `oauth token` for rugged provider
+    - Config: `exclude_spec` in `r10k.yaml`, `Puppetfile`, and CLI
+    - Add support for `plain` environment type, to allow sources that support
+      environment modules to operate without a control repo being required.
+    - Add support for `tarball` module type, allowing module content to be
+      packaged and sourced from generic fileservers
+    - Add experimental support for tarball environment type, allowing whole
+      environments to be packaged and sourced from generic fileservers
+    - Add support for specifying additional logging ouputs
+- Fixed:
+  - Fixes to the r10k gem:
+    - Record unprocessed environment name, so that `strip_component` does not
+      cause truncated environment names to be used as git branches, resulting
+      in errors or incorrect deploys.
+    - Ensure `--incremental` does not skip undeployed modules
+    - Fix `force` always resolving to true for `puppetfile install`
+    - Resync repos with unresolvable refs
+    - Do not recurse into symlinked dirs when finding files to purge.
+    - Restore Ruby 3 compatibility
+    - Ensure the remote url in rugged cache directories is current
+
+
+
 * Wed Feb 09 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-4
 - Fixed:
   - SRPMs are now copied into `dist/` during builds
