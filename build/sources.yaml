@@ -1,5 +1,5 @@
 ---
-version: 3.12.1
+version: 3.14.2
 url: https://github.com/simp/pkg-r10k
 gems:
   cri:
@@ -9,7 +9,7 @@ gems:
     repo: https://github.com/ddfreyne/cri
     release: 1
   faraday:
-    version: 0.17.4
+    version: 0.17.5
     license: MIT
     url: https://lostisland.github.io/faraday
     repo: https://github.com/lostisland/faraday
@@ -77,11 +77,11 @@ gems:
     repo: https://github.com/puppetlabs/forge-ruby
     release: 1
   r10k:
-    version: 3.12.1
+    version: 3.14.2
     license: Apache-2.0
     url: https://github.com/puppetlabs/r10k
     repo: https://github.com/puppetlabs/r10k
-    release: 4
+    release: 1
   semantic_puppet:
     version: 1.0.4
     license: Apache-2.0

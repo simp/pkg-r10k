@@ -1,3 +1,34 @@
+* Wed Apr 25 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.14.2-1
+- Changed:
+  - Updated `r10k` gem to 3.14.2
+  - Updated dependency `faraday` gem to 0.17.5
+  - See https://github.com/puppetlabs/r10k/compare/3.12.1...3.14.2
+    for full diff of r10k changes
+- Added:
+  - New r10k gem features:
+    - New config: `oauth token` for rugged provider
+    - Config: `exclude_spec` in `r10k.yaml`, `Puppetfile`, and CLI
+    - Add support for `plain` environment type, to allow sources that support
+      environment modules to operate without a control repo being required.
+    - Add support for `tarball` module type, allowing module content to be
+      packaged and sourced from generic fileservers
+    - Add experimental support for tarball environment type, allowing whole
+      environments to be packaged and sourced from generic fileservers
+    - Add support for specifying additional logging ouputs
+- Fixed:
+  - Fixes to the r10k gem:
+    - Record unprocessed environment name, so that `strip_component` does not
+      cause truncated environment names to be used as git branches, resulting
+      in errors or incorrect deploys.
+    - Ensure `--incremental` does not skip undeployed modules
+    - Fix `force` always resolving to true for `puppetfile install`
+    - Resync repos with unresolvable refs
+    - Do not recurse into symlinked dirs when finding files to purge.
+    - Restore Ruby 3 compatibility
+    - Ensure the remote url in rugged cache directories is current
+
+
+
 * Wed Feb 09 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.12.1-4
 - Fixed:
   - SRPMs are now copied into `dist/` during builds
