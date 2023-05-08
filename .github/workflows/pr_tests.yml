@@ -7,7 +7,7 @@ on:
     types: [opened, reopened, synchronize]
 
 env:
-  PUPPET_VERSION: '~> 6'
+  PUPPET_VERSION: '~> 7'
 
 jobs:
   yaml-syntax:

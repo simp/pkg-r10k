@@ -18,9 +18,9 @@ gem_sources.each { |gem_source| source gem_source }
 
 # mandatory gems
 gem 'mg'
-gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~> 6.2')
+gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~> 7')
 gem 'rake'
-gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', ['>= 5.12.1', '< 6'])
+  gem 'simp-rake-helpers', ENV['SIMP_RAKE_HELPERS_VERSION'] || ['>= 5.12.1', '< 6']
 
 gem 'r10k', ENV.fetch('R10K_VERSION', '3.11')
 gem 'rest-client'
@@ -34,6 +34,19 @@ group :testing do
   gem 'rspec-its'
 
   # A dependency of simp-rake-helpers
-  gem 'simp-beaker-helpers', ENV['SIMP_BEAKER_HELPERS_VERSION'] || ['>= 1.23.2', '< 2']
+  gem 'simp-beaker-helpers', ENV['SIMP_BEAKER_HELPERS_VERSION'] || ['>= 1.28.0', '< 2']
 
+end
+
+# Evaluate extra gemfiles if they exist
+extra_gemfiles = [
+  ENV['EXTRA_GEMFILE'] || '',
+  "#{__FILE__}.project",
+  "#{__FILE__}.local",
+  File.join(Dir.home, '.gemfile'),
+]
+extra_gemfiles.each do |gemfile|
+  if File.file?(gemfile) && File.readable?(gemfile)
+    eval(File.read(gemfile), binding)
+  end
 end
