@@ -18,10 +18,13 @@ gem_sources.each { |gem_source| source gem_source }
 
 # mandatory gems
 gem 'mg'
+# renovate: datasource=rubygems versioning=ruby
 gem 'puppet', ENV.fetch('PUPPET_VERSION',  '~> 7')
 gem 'rake'
-  gem 'simp-rake-helpers', ENV['SIMP_RAKE_HELPERS_VERSION'] || ['>= 5.12.1', '< 6']
+  # renovate: datasource=rubygems versioning=ruby
+  gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 5.24.0')
 
+# renovate: datasource=rubygems versioning=ruby
 gem 'r10k', ENV.fetch('R10K_VERSION', '3.11')
 gem 'rest-client'
 
@@ -34,7 +37,8 @@ group :testing do
   gem 'rspec-its'
 
   # A dependency of simp-rake-helpers
-  gem 'simp-beaker-helpers', ENV['SIMP_BEAKER_HELPERS_VERSION'] || ['>= 1.28.0', '< 2']
+  # renovate: datasource=rubygems versioning=ruby
+  gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', '~> 2.0.0')
 
 end
 
