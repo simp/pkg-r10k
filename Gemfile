@@ -25,7 +25,7 @@ gem 'rake'
   gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 5.24.0')
 
 # renovate: datasource=rubygems versioning=ruby
-gem 'r10k', ENV.fetch('R10K_VERSION', '3.16.2')
+gem 'r10k', ENV.fetch('R10K_VERSION', '5.0.2')
 gem 'rest-client'
 
 group :testing do
