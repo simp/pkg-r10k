@@ -1,13 +1,5 @@
 ---
 HOSTS:
-  el7:
-    roles:
-    - client
-    platform: el-7-x86_64
-    box: generic/oracle7
-    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
-    family: sicura-image-build/oracle-linux-7
-    gce_machine_type: n1-standard-2
   el8:
     roles:
     - client
@@ -16,9 +8,17 @@ HOSTS:
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
     family: sicura-image-build/oracle-linux-8
     gce_machine_type: n1-standard-2
+  el9:
+    roles:
+    - client
+    platform: el-9-x86_64
+    box: generic/oracle9
+    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
+    family: sicura-image-build/oracle-linux-9
+    gce_machine_type: n1-standard-2
 CONFIG:
   log_level: verbose
   synced_folder: disabled
   type: aio
-  vagrant_memsize: 256
-  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'puppet7') %>"
+  vagrant_memsize: 512
+  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'openvox8') %>"

@@ -19,13 +19,19 @@ version of r10k is present on the system.
 
 * The build process creates RPMs for the r10k gem and each of its dependencies.
 * The `r10k` executable is installed into `/usr/share/simp/bin/r10k`
-* Tested against Puppet 5.5 and Puppet 6
+* The installed `r10k` runs under the AIO agent's Ruby (OpenVox 8+ or
+  puppet-agent), when available
+* RPMs are built for EL (RHEL, AlmaLinux, Rocky Linux, Oracle Linux) 8, 9,
+  and 10
+* Gems that cannot be vendored noarch (C extensions) are listed under
+  `exclude_gems` in `build/sources.yaml` and must be satisfied by the
+  default/bundled gems shipped with the AIO agent's Ruby
 
 ## Setup
 
 ### Requirements
 
-* [Ruby] (last tested with 2.4.9 and 2.5.7)
+* [Ruby] 3.2 or later (tested with 3.2 through 4.0)
 * [bundler]
 
 ### Getting started

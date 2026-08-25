@@ -95,6 +95,12 @@ task :gem_update, [:r10k_version] do |_t, args|
   set = Gem::RequestSet.new dep
   requests = set.resolve
 
+  # Skip gems that can't be vendored noarch (C extensions).  Every gem in
+  # this list must be satisfiable by the default/bundled gems that ship
+  # with the AIO agent's vendored Ruby.
+  excluded_gems = deps['exclude_gems'] || []
+  requests = requests.reject { |r| excluded_gems.include?(r.name) }
+
   removed_gems = deps['gems'].keys - (requests.map{|r| r.name })
   removed_gems.each do |g|
       warn ''
@@ -180,6 +186,8 @@ namespace :pkg do
         ::Bundler.send(CLEAN_ENV_METHOD) do
           # multi_json requires a signing key, we don't have one
           sh "sed -i '/signing_key/d' #{gem}.gemspec" if gem == 'multi_json'
+          # `Gem::Specification#has_rdoc=` was removed in RubyGems 4
+          sh "sed -i '/has_rdoc/d' #{gem}.gemspec" if gem == 'text'
           if gem == 'jwt'
             sh 'gem build --silent ruby-jwt.gemspec'
           else
@@ -197,7 +205,7 @@ namespace :pkg do
     changelog = File.read('CHANGELOG')
 
     f = File.open('build/simp-vendored-r10k.spec', 'w')
-    f << ERB.new(File.read('build/simp-vendored-r10k.spec.erb'), nil, '-').result(binding)
+    f << ERB.new(File.read('build/simp-vendored-r10k.spec.erb'), trim_mode: '-').result(binding)
     f.close
   end
 
