@@ -1,4 +1,26 @@
-* Wed Apr 25 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.14.2-1
+* Tue Aug 25 2026 Steven Pritchard <steve@sicura.us> - 5.0.3-1
+- Changed:
+  - Updated `r10k` gem to 5.0.3
+  - See https://github.com/puppetlabs/r10k/compare/3.14.2...5.0.3
+    for full diff of r10k changes
+  - Updated all vendored dependency gems to current versions
+  - RPM now `Recommends: (openvox-agent or puppet-agent)` instead of
+    `puppet-agent`, following the SIMP migration to OpenVox
+  - Build tooling now requires Ruby 3.2+ (tested through Ruby 4.0),
+    the `openvox` gem, and `simp-rake-helpers` 6.x
+- Added:
+  - New vendored gems required by r10k 5:
+    `erubi`, `faraday-follow_redirects`, `faraday-net_http`
+  - New `exclude_gems` key in `build/sources.yaml` lists dependencies
+    that ship with the AIO agent's Ruby and are no longer vendored
+    (base64, fiddle, forwardable, json, logger, net-http, prime, racc,
+    singleton, uri)
+- Removed:
+  - Dropped vendored gems no longer required by r10k:
+    `faraday_middleware`, `multipart-post`
+  - Dropped support for EL7 (packages are built for EL8, EL9, and EL10)
+
+* Mon Apr 25 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.14.2-1
 - Changed:
   - Updated `r10k` gem to 3.14.2
   - Updated dependency `faraday` gem to 0.17.5
