@@ -7,7 +7,7 @@ on:
     types: [opened, reopened, synchronize]
 
 env:
-  PUPPET_VERSION: '~> 7'
+  PUPPET_VERSION: '~> 8'
 
 jobs:
   yaml-syntax:
@@ -18,7 +18,7 @@ jobs:
       - name: "Install Ruby"
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7.8
+          ruby-version: 3.4.9
           bundler-cache: true
       - run: |
           bundle exec ruby -ryaml -e "puts YAML.load_file('build/sources.yaml')['version']"
@@ -31,22 +31,38 @@ jobs:
       - name: "Install Ruby"
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7.8
+          ruby-version: 3.4.9
           bundler-cache: true
       - run: "bundle exec rake pkg:create_tag_changelog"
 
   rpmbuild:
-    name: 'Build RPM'
+    name: 'Build RPM (${{matrix.puppet.label}})'
     runs-on: ubuntu-latest
-    continue-on-error: true
+    strategy:
+      matrix:
+        puppet:
+          - label: 'OpenVox 8.x (Ruby 3.2)'
+            puppet_version: '~> 8.0'
+            ruby_version: '3.2'
+          - label: 'OpenVox 8.x (Ruby 3.4)'
+            puppet_version: '~> 8.0'
+            ruby_version: '3.4'
+          # OpenVox 9 is unreleased; preview the future Ruby 4.0 / OpenVox 9
+          # combo by running the OpenVox 8 gem on Ruby 4.0.
+          - label: 'OpenVox 9.x preview (Ruby 4.0, OpenVox 8 gem)'
+            puppet_version: '~> 8.0'
+            ruby_version: '4.0'
+      fail-fast: false
+    env:
+      PUPPET_VERSION: '${{matrix.puppet.puppet_version}}'
     steps:
       - uses: actions/checkout@v7
       - name: "Install Ruby ${{matrix.puppet.ruby_version}}"
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7.8
+          ruby-version: ${{matrix.puppet.ruby_version}}
           bundler-cache: true
       - run: |
-          command -v rpmbuild || if command -v apt-get; then apt-get update; apt-get install -y rpm; fi ||:
+          command -v rpmbuild || if command -v apt-get; then sudo apt-get update; sudo apt-get install -y rpm; fi ||:
           command -v rpmbuild || { >&2 echo "FATAL: Cannot find executable: ''rpmbuild''";  exit 1 ;}
           bundle exec rake pkg:rpm
