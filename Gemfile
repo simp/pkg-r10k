@@ -13,7 +13,7 @@
 # PUPPET_VERSION   | specifies the version of the puppet/openvox gems to load
 # OPENVOX_VERSION  | overrides the openvox gem version (defaults to PUPPET_VERSION)
 # ------------------------------------------------------------------------------
-puppet_version  = ENV.fetch('PUPPET_VERSION', ['>= 8', '< 9'])
+puppet_version  = ENV.fetch('PUPPET_VERSION', ['>= 8', '< 10'])
 openvox_version = ENV.fetch('OPENVOX_VERSION', puppet_version)
 gem_sources     = ENV.key?('SIMP_GEM_SERVERS') ? ENV['SIMP_GEM_SERVERS'].split(/[, ]+/) : ['https://rubygems.org']
 
