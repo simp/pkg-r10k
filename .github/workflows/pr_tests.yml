@@ -47,10 +47,8 @@ jobs:
           - label: 'OpenVox 8.x (Ruby 3.4)'
             puppet_version: '~> 8.0'
             ruby_version: '3.4'
-          # OpenVox 9 is unreleased; preview the future Ruby 4.0 / OpenVox 9
-          # combo by running the OpenVox 8 gem on Ruby 4.0.
-          - label: 'OpenVox 9.x preview (Ruby 4.0, OpenVox 8 gem)'
-            puppet_version: '~> 8.0'
+          - label: 'OpenVox 9.x (Ruby 4.0)'
+            puppet_version: '~> 9.0'
             ruby_version: '4.0'
       fail-fast: false
     env:
@@ -66,3 +64,22 @@ jobs:
           command -v rpmbuild || if command -v apt-get; then sudo apt-get update; sudo apt-get install -y rpm; fi ||:
           command -v rpmbuild || { >&2 echo "FATAL: Cannot find executable: ''rpmbuild''";  exit 1 ;}
           bundle exec rake pkg:rpm
+
+  # The one check for branch protection to require: GitHub only blocks a
+  # merge on checks listed by name, and this job fails unless every job it
+  # needs succeeded. Add any new job in this workflow to `needs:`.
+  all-checks:
+    name: 'All checks'
+    if: always()
+    needs:
+      - yaml-syntax
+      - releng-checks
+      - rpmbuild
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Fail unless every needed job succeeded'
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          jq -r 'to_entries[] | "\(.key): \(.value.result)"' <<< "$NEEDS"
+          jq -e 'all(.[]; .result == "success")' <<< "$NEEDS" > /dev/null
